@@ -1,0 +1,27 @@
+.button {
+  background-color: transparent;
+  display: flex;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.button_active {
+  color: white;
+}
+
+.header {
+  max-width: 1280px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list {
+  margin-right: 112px;
+}
+
+.header_left_bar {
+  display: flex;
+  align-items: center;
+}
