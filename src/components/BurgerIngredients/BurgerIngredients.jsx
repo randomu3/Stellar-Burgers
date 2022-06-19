@@ -9,10 +9,12 @@ import { data } from "../utils/data.js";
 
 import ingredientsStyles from "./BurgerIngredients.module.css";
 
+import PropTypes from 'prop-types';
+
 const Tabs = () => {
   const [current, setCurrent] = React.useState("one");
   return (
-    <div style={{ display: "flex" }}>
+    <div className={ingredientsStyles.tab}>
       <Tab value="one" active={current === "one"} onClick={setCurrent}>
         Булки
       </Tab>
@@ -30,9 +32,9 @@ const Ingredients = ({ ingredients }) => {
   return (
     <ul className={`pb-10 pt-6 pl-4 pr-4 ${ingredientsStyles.ul}`}>
       {ingredients.map((ingredient) => (
-        <li key={ingredient.id} className={ingredientsStyles.li}>
+        <li key={ingredient._id} className={ingredientsStyles.li}>
           <div className={`pr-4 pl-4 pb-1`}>
-            <img className={``} id={ingredient.id} src={ingredient.image}></img>
+            <img id={ingredient.id} src={ingredient.image} alt={ingredient.name}></img>
             <p
               className={`mt-1 mb-1 text text_type_digits-default ${ingredientsStyles.price}`}
             >
@@ -46,6 +48,10 @@ const Ingredients = ({ ingredients }) => {
     </ul>
   );
 };
+
+Ingredients.propTypes = {
+  ingredients: PropTypes.array.isRequired
+}
 
 export const BurgerIngredients = () => {
   return (

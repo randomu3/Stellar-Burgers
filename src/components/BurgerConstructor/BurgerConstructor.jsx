@@ -11,6 +11,8 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import PropTypes from 'prop-types'; // ES6
+
 const ComponentsList = ({ ingredients }) => {
   return (
     <div className={bcStyles.constructor_wrapper}>
@@ -43,6 +45,10 @@ const ComponentsList = ({ ingredients }) => {
     </div>
   );
 };
+
+ComponentsList.propTypes = {
+  ingredients: PropTypes.array.isRequired
+}
 
 const ButtonOrder = () => {
   return (

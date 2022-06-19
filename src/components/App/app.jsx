@@ -8,9 +8,7 @@ import appStyles from "./app.module.css";
 export const App = () => {
   return (
     <div className={appStyles.app}>
-      <header className={appStyles.header}>
-        <AppHeader />
-      </header>
+        <AppHeader /> 
       <main className={appStyles.main}>
         <section>
           <BurgerIngredients />

@@ -14,7 +14,7 @@ const ButtonConstructor = () => {
     <button
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default ${headerStyles.button_active} ${headerStyles.button}`}
     >
-      <div className="mr-2" style={{ display: "flex" }}>
+      <div className={`mr-2 ${headerStyles.constructor}`}>
         <BurgerIcon type="primary" />
       </div>
       Конструктор
@@ -27,7 +27,7 @@ const ListOrders = () => {
     <button
       className={`ml-2 pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button} ${headerStyles.list}`}
     >
-      <div className="mr-2" style={{ display: "flex" }}>
+      <div className={`mr-2 ${headerStyles.list_orders}`}>
         <ListIcon type="secondary" />
       </div>
       Лента заказов
@@ -40,7 +40,7 @@ const PersonalAccount = () => {
     <button
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
     >
-      <div className="mr-2" style={{ display: "flex" }}>
+      <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
         <ProfileIcon type="secondary" />
       </div>
       Личный кабинет
@@ -50,13 +50,15 @@ const PersonalAccount = () => {
 
 export const AppHeader = () => {
   return (
-    <div className={`p-4 ${headerStyles.header}`}>
-      <div className={headerStyles.header_left_bar}>
-        <ButtonConstructor />
-        <ListOrders />
-        <Logo />
+    <header className={headerStyles.header_semantic}>
+      <div className={`p-4 ${headerStyles.header}`}>
+        <div className={headerStyles.header_left_bar}>
+          <ButtonConstructor />
+          <ListOrders />
+          <Logo />
+        </div>
+        <PersonalAccount />
       </div>
-      <PersonalAccount />
-    </div>
+    </header>
   );
 };

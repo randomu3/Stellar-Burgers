@@ -10,11 +10,31 @@
   color: white;
 }
 
+.constructor {
+  display: flex;
+}
+
+.list_orders {
+  display: flex;
+}
+
+.personal_account_icon {
+  display: flex;
+}
+
 .header {
   max-width: 1280px;
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+.header_semantic {
+  width: 100%;
+  background: #1c1c21;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .list {

@@ -10,14 +10,6 @@
   gap: 40px;
 }
 
-.header {
-  width: 100%;
-  background: #1c1c21;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 @media screen and (max-width: 1920px) {
   .app {
     box-sizing: border-box;
