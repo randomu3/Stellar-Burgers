@@ -1,0 +1,29 @@
+.wrapper {
+  /* overflow: hidden; */
+}
+
+.modal {
+  max-width: 720px;
+  background-color: #1c1c21;
+
+  min-height: 500px; /* Опционально */
+  min-width: 720px; /* Опционально */
+  /* border-radius: 10px; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* padding: 34px 36px 37px; */
+  position: relative;
+  /* width: 430px; */
+  z-index: 3;
+
+  border-radius: 40px;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    right: 40px;
+    top: 60px;
+}

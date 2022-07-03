@@ -1,0 +1,12 @@
+.modal {
+    display: flex;
+    align-items: center;
+}
+
+.price {
+  text-shadow: 0 0px 20px #4c4cff;
+}
+
+.text {
+  color: #8585ad;
+}

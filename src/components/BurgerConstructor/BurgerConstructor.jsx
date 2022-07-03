@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 
 import { data } from "../utils/data.js";
 
@@ -11,7 +11,8 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import PropTypes from 'prop-types'; // ES6
+import PropTypes from "prop-types"; // ES6
+import { OrderDetails } from "../OrderDetails/OrderDetails.jsx";
 
 const ComponentsList = ({ ingredients }) => {
   return (
@@ -47,20 +48,33 @@ const ComponentsList = ({ ingredients }) => {
 };
 
 ComponentsList.propTypes = {
-  ingredients: PropTypes.array.isRequired
-}
+  ingredients: PropTypes.array.isRequired,
+};
 
 const ButtonOrder = () => {
+  const [isShow, setShow] = useState(false);
+
+  function openModal() {
+    setShow(true);
+  }
+
+  const closeModal = useCallback(() => {
+    setShow(false);
+  }, []);
+
   return (
-    <div className={`${bcStyles.button_section}`}>
-      <div className={`${bcStyles.button}`}>
-        <p className={`text text_type_digits-medium mr-2`}>610</p>
-        <CurrencyIcon type="primary" />
+    <>
+      {isShow && <OrderDetails closeModal={closeModal} />}
+      <div className={`${bcStyles.button_section}`}>
+        <div className={`${bcStyles.button}`}>
+          <p className={`text text_type_digits-medium mr-2`}>610</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <Button type="primary" size="large" onClick={openModal}>
+          Оформить заказ
+        </Button>
       </div>
-      <Button type="primary" size="large">
-        Оформить заказ
-      </Button>
-    </div>
+    </>
   );
 };
 
