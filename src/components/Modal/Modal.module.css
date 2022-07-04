@@ -21,9 +21,10 @@
 }
 
 .button {
-    background-color: transparent;
-    border: none;
-    position: absolute;
-    right: 40px;
-    top: 60px;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 40px;
+  top: 60px;
+  cursor: pointer;
 }

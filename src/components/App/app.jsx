@@ -1,38 +1,31 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppHeader } from "../Header/header";
 import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
 
-import appStyles from "./app.module.css";
+import appStyles from "./App.module.css";
+
+import { getIngredients } from "../utils/burger-api";
 
 export const App = () => {
   const [items, setItems] = useState([]);
-
+  const [isError, setError] = useState(false);
   useEffect(() => {
-    const URL = "https://norma.nomoreparties.space/api/ingredients";
-    fetch(URL)
-      .then((response) => {
-        return response.json();
-      })
-      .then(({ data }) => {
-        // console.log(data);
-        setItems(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getIngredients()
+      .then((result) => setItems(result))
+      .catch(() => setError(true));
   }, []);
+
+  if (isError) {
+    alert(`Данные по ингредиентам не загружены`)
+  }
 
   return (
     <div className={appStyles.app}>
       <AppHeader />
       <main className={appStyles.main}>
-        <section>
-          <BurgerIngredients ingredients={items} />
-        </section>
-        <section>
-          <BurgerConstructor />
-        </section>
+        <BurgerIngredients ingredients={items} />
+        <BurgerConstructor />
       </main>
     </div>
   );

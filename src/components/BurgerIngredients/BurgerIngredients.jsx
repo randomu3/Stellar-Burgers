@@ -9,6 +9,8 @@ import ingredientsStyles from "./BurgerIngredients.module.css";
 
 import PropTypes from "prop-types";
 import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
+import { filterIngredients } from "../utils/filter-ingredients";
+import { ingredientPropType } from "../utils/ingredients-shape";
 
 const Tabs = () => {
   const [current, setCurrent] = React.useState("one");
@@ -82,7 +84,7 @@ const Ingredients = ({ ingredients }) => {
 };
 
 Ingredients.propTypes = {
-  ingredients: PropTypes.array.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
 export const BurgerIngredients = ({ ingredients }) => {
@@ -93,21 +95,15 @@ export const BurgerIngredients = ({ ingredients }) => {
       <div className={`mt-10 ${ingredientsStyles.ingredients}`}>
         <div>
           <h2 className="text text_type_main-medium">Булки</h2>
-          <Ingredients
-            ingredients={ingredients.filter((e) => e.type === "bun")}
-          />
+          <Ingredients ingredients={filterIngredients(ingredients, "bun")} />
         </div>
         <div>
           <h2 className="text text_type_main-medium">Соусы</h2>
-          <Ingredients
-            ingredients={ingredients.filter((e) => e.type === "sauce")}
-          />
+          <Ingredients ingredients={filterIngredients(ingredients, "sauce")} />
         </div>
         <div>
           <h2 className="text text_type_main-medium">Начинки</h2>
-          <Ingredients
-            ingredients={ingredients.filter((e) => e.type === "main")}
-          />
+          <Ingredients ingredients={filterIngredients(ingredients, "main")} />
         </div>
       </div>
     </div>
@@ -115,5 +111,5 @@ export const BurgerIngredients = ({ ingredients }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

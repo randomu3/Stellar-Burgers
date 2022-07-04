@@ -5,6 +5,7 @@ import IDStyles from "./IngredientDetails.module.css";
 import { Modal } from "../Modal/Modal";
 
 import PropTypes from "prop-types";
+import { ingredientPropType } from "../utils/ingredients-shape";
 
 export const IngredientDetails = ({ data, closeModal }) => {
   return (
@@ -56,5 +57,5 @@ export const IngredientDetails = ({ data, closeModal }) => {
 
 IngredientDetails.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired,
+  data: ingredientPropType.isRequired,
 };
