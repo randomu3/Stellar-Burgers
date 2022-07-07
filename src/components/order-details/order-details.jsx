@@ -1,8 +1,8 @@
 import React from "react";
 
-import ODStyles from "./OrderDetails.module.css";
+import ODStyles from "./order-details.module.css";
 
-import { Modal } from "../Modal/Modal";
+import { Modal } from "../modal/modal";
 
 import PropTypes from "prop-types"; // ES6
 

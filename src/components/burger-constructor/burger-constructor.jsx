@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 
 import { data } from "../utils/data.js";
 
-import bcStyles from "./BurgerConstructor.module.css";
+import bcStyles from "./burger-constructor.module.css";
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import PropTypes from "prop-types"; // ES6
-import { OrderDetails } from "../OrderDetails/OrderDetails.jsx";
+import { OrderDetails } from "../order-details/order-details.jsx";
 
 const ComponentsList = ({ ingredients }) => {
   return (

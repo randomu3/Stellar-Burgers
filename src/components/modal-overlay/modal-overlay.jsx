@@ -2,7 +2,7 @@ import React from "react";
 
 import PropTypes from "prop-types";
 
-import modalOverlayStyles from "./ModalOverlay.module.css";
+import modalOverlayStyles from "./modal-overlay.module.css";
 
 export const ModalOverlay = ({ children, closeModal }) => {
   return (

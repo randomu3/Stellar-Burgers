@@ -5,10 +5,10 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ingredientsStyles from "./BurgerIngredients.module.css";
+import ingredientsStyles from "./burger-ingredients.module.css";
 
 import PropTypes from "prop-types";
-import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
+import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
 import { filterIngredients } from "../utils/filter-ingredients";
 import { ingredientPropType } from "../utils/ingredients-shape";
 

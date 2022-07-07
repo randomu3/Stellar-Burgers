@@ -1,8 +1,8 @@
 import React from "react";
 
-import IDStyles from "./IngredientDetails.module.css";
+import IDStyles from "./ingredient-details.module.css";
 
-import { Modal } from "../Modal/Modal";
+import { Modal } from "../modal/modal";
 
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../utils/ingredients-shape";

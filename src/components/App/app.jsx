@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { AppHeader } from "../Header/header";
-import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients";
-import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
+import { AppHeader } from "../header/header";
+import { BurgerIngredients } from "../burger-ingredients/burger-ingredients";
+import { BurgerConstructor } from "../burger-constructor/burger-constructor";
 
-import appStyles from "./App.module.css";
+import appStyles from "./app.module.css";
 
 import { getIngredients } from "../utils/burger-api";
 
