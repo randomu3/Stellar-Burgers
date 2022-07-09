@@ -2,9 +2,8 @@ import React from "react";
 
 import ODStyles from "./order-details.module.css";
 
-import { Modal } from "../Modal/modal";
-
 import PropTypes from "prop-types"; // ES6
+import { Modal } from "../Modal/Modal";
 
 export const OrderDetails = ({ closeModal }) => {
   return (
