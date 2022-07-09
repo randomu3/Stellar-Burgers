@@ -8,7 +8,7 @@ import {
 import ingredientsStyles from "./burger-ingredients.module.css";
 
 import PropTypes from "prop-types";
-import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+import { IngredientDetails } from "../Ingredient-details/ingredient-details.jsx";
 import { filterIngredients } from "../utils/filter-ingredients";
 import { ingredientPropType } from "../utils/ingredients-shape";
 

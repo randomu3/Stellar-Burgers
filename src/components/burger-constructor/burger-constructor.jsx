@@ -12,7 +12,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import PropTypes from "prop-types"; // ES6
-import { OrderDetails } from "../order-details/order-details.jsx";
+import { OrderDetails } from "../Order-details/order-details.jsx";
 
 const ComponentsList = ({ ingredients }) => {
   return (

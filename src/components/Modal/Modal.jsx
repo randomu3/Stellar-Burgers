@@ -7,7 +7,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import PropTypes from "prop-types";
 
-import { ModalOverlay } from "../modal-overlay/modal-overlay";
+import { ModalOverlay } from "../Modal-overlay/modal-overlay";
 
 export const Modal = ({ children, className, closeModal }) => {
   useEffect(() => {
