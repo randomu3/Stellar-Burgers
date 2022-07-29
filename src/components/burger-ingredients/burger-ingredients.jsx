@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import { IngredientDetails } from "../Ingredient-details/ingredient-details.jsx";
 import { filterIngredients } from "../utils/filter-ingredients";
 import { ingredientPropType } from "../utils/ingredients-shape";
+import { BurgerContext } from "../../services/burgerContext";
 
 const Tabs = () => {
   const [current, setCurrent] = React.useState("one");
@@ -87,7 +88,9 @@ Ingredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
+  const { items } = React.useContext(BurgerContext);
+
   return (
     <div className="mt-10">
       <h1 className="text mb-5 text_type_main-large">Соберите бургер</h1>
@@ -95,21 +98,17 @@ export const BurgerIngredients = ({ ingredients }) => {
       <div className={`mt-10 ${ingredientsStyles.ingredients}`}>
         <div>
           <h2 className="text text_type_main-medium">Булки</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "bun")} />
+          <Ingredients ingredients={filterIngredients(items, "bun")} />
         </div>
         <div>
           <h2 className="text text_type_main-medium">Соусы</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "sauce")} />
+          <Ingredients ingredients={filterIngredients(items, "sauce")} />
         </div>
         <div>
           <h2 className="text text_type_main-medium">Начинки</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "main")} />
+          <Ingredients ingredients={filterIngredients(items, "main")} />
         </div>
       </div>
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
