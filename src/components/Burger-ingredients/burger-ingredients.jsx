@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 
 import {
   Tab,
@@ -11,18 +11,45 @@ import PropTypes from "prop-types";
 import { IngredientDetails } from "../Ingredient-details/ingredient-details.jsx";
 import { filterIngredients } from "../utils/filter-ingredients";
 import { ingredientPropType } from "../utils/ingredients-shape";
+import { BurgerContext } from "../../services/burgerContext";
 
-const Tabs = () => {
+const Tabs = ({ mainsRef, bunsRef, saucesRef }) => {
   const [current, setCurrent] = React.useState("one");
+
+  function handleButtonClick(ref) {
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
   return (
     <div className={ingredientsStyles.tab}>
-      <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <Tab
+        onClick={() => {
+          handleButtonClick(bunsRef);
+          setCurrent();
+        }}
+        value="one"
+        active={current === "one"}
+      >
         Булки
       </Tab>
-      <Tab value="two" active={current === "two"} onClick={setCurrent}>
+      <Tab
+        onClick={() => {
+          handleButtonClick(saucesRef);
+          setCurrent();
+        }}
+        value="two"
+        active={current === "two"}
+      >
         Соусы
       </Tab>
-      <Tab value="three" active={current === "three"} onClick={setCurrent}>
+      <Tab
+        onClick={() => {
+          handleButtonClick(mainsRef);
+          setCurrent();
+        }}
+        value="three"
+        active={current === "three"}
+      >
         Начинки
       </Tab>
     </div>
@@ -87,29 +114,31 @@ Ingredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
+  const { items } = React.useContext(BurgerContext);
+
+  const mainsRef = useRef();
+  const bunsRef = useRef();
+  const saucesRef = useRef();
+
   return (
     <div className="mt-10">
       <h1 className="text mb-5 text_type_main-large">Соберите бургер</h1>
-      <Tabs />
+      <Tabs bunsRef={bunsRef} mainsRef={mainsRef} saucesRef={saucesRef} />
       <div className={`mt-10 ${ingredientsStyles.ingredients}`}>
-        <div>
+        <div ref={bunsRef}>
           <h2 className="text text_type_main-medium">Булки</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "bun")} />
+          <Ingredients ingredients={filterIngredients(items, "bun")} />
         </div>
-        <div>
+        <div ref={saucesRef}>
           <h2 className="text text_type_main-medium">Соусы</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "sauce")} />
+          <Ingredients ingredients={filterIngredients(items, "sauce")} />
         </div>
-        <div>
+        <div ref={mainsRef}>
           <h2 className="text text_type_main-medium">Начинки</h2>
-          <Ingredients ingredients={filterIngredients(ingredients, "main")} />
+          <Ingredients ingredients={filterIngredients(items, "main")} />
         </div>
       </div>
     </div>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
 };

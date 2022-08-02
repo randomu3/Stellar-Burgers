@@ -11,7 +11,6 @@ import {
 
 import { OrderDetails } from "../Order-details/order-details.jsx";
 import { OrdersContext } from "../../services/ordersContext.js";
-import { sendOrders } from "../utils/burger-api";
 
 const ComponentsList = () => {
   const { orders } = React.useContext(OrdersContext);
@@ -56,7 +55,7 @@ const ButtonOrder = () => {
   const [isShow, setShow] = useState(false);
   const { orders } = React.useContext(OrdersContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(0);
+  const [data, setData] = useState(null);
 
   function openModal() {
     setShow(true);
@@ -66,7 +65,18 @@ const ButtonOrder = () => {
     );
     idOrdersArray.push(orders.bun._id, orders.bun._id);
 
-    sendOrders(idOrdersArray)
+    fetch("https://norma.nomoreparties.space/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify({
+        ingredients: idOrdersArray,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
         setIsLoading(false);
         setData(data.order.number);
