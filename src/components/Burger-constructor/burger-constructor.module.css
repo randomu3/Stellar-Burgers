@@ -23,7 +23,7 @@
   margin: 16px 0;
   height: calc(100vh - 570px);
   overflow-y: scroll;
-  min-width: 576px;
+  min-width: 570px;
 }
 
 .constructor_wrapper {
