@@ -1,20 +1,17 @@
 import React, { useState, useCallback, useMemo } from "react";
-
+import { useDrop } from "react-dnd";
 import bcStyles from "./burger-constructor.module.css";
-
 import {
   Button,
   CurrencyIcon,
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import { OrderDetails } from "../Order-details/order-details.jsx";
-import { OrdersContext } from "../../services/ordersContext.js";
-import { sendOrders } from "../utils/burger-api";
+import { useSelector } from "react-redux";
 
 const ComponentsList = () => {
-  const { orders } = React.useContext(OrdersContext);
+  const orders = useSelector((state) => state.ingredientsConstructor);
 
   return (
     <div className={bcStyles.constructor_wrapper}>
@@ -29,7 +26,10 @@ const ComponentsList = () => {
       )}
       <ul className={`${bcStyles.ul}`}>
         {orders.othersProducts.map((ingredient) => (
-          <li key={ingredient._id} className={bcStyles.li}>
+          <li
+            key={ingredient._id}
+            className={bcStyles.li}
+          >
             <DragIcon type="primary" />
             <ConstructorElement
               text={ingredient.name}
@@ -54,7 +54,7 @@ const ComponentsList = () => {
 
 const ButtonOrder = () => {
   const [isShow, setShow] = useState(false);
-  const { orders } = React.useContext(OrdersContext);
+  const orders = useSelector((state) => state.ingredientsConstructor); // ??
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(0);
 
@@ -66,12 +66,12 @@ const ButtonOrder = () => {
     );
     idOrdersArray.push(orders.bun._id, orders.bun._id);
 
-    sendOrders(idOrdersArray)
-      .then((data) => {
-        setIsLoading(false);
-        setData(data.order.number);
-      })
-      .catch((err) => console.log(err));
+    // sendOrders(idOrdersArray)
+    //   .then((data) => {
+    //     setIsLoading(false);
+    //     setData(data.order.number);
+    //   })
+    //   .catch((err) => console.log(err));
   }
 
   const closeModal = useCallback(() => {

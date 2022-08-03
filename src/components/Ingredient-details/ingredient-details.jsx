@@ -3,10 +3,12 @@ import React from "react";
 import IDStyles from "./ingredient-details.module.css";
 
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../utils/ingredients-shape";
 import { Modal } from "../Modal/Modal";
+import { useSelector } from "react-redux";
 
-export const IngredientDetails = ({ data, closeModal }) => {
+export const IngredientDetails = ({ closeModal }) => {
+  const data = useSelector((state) => state.currentIngredient.data);
+
   return (
     <Modal className={IDStyles.modal} closeModal={closeModal}>
       <h3 className="text text_type_main-large">Детали ингредиента</h3>
@@ -56,5 +58,4 @@ export const IngredientDetails = ({ data, closeModal }) => {
 
 IngredientDetails.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  data: ingredientPropType.isRequired,
 };
