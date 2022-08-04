@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import {
   Tab,
   CurrencyIcon,
+  Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ingredientsStyles from "./burger-ingredients.module.css";
@@ -14,38 +15,10 @@ import { ingredientPropType } from "../utils/ingredients-shape";
 import { useDispatch, useSelector } from "react-redux";
 import { setInfoIngredient } from "../../services/actions/currentIngredient";
 
-const Tabs = ({ mainsRef, bunsRef, saucesRef, ingredientsRef }) => {
-  const [current, setCurrent] = React.useState("one");
-
+const Tabs = ({ mainsRef, bunsRef, saucesRef, current, setCurrent }) => {
   function handleButtonClick(ref) {
     ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
   }
-
-  useEffect(() => {
-    const property = "id";
-    const refs = [bunsRef, saucesRef, mainsRef]; // Как решить эту поблему с загоревшимся табом на "Соусы"?
-
-    const callback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setCurrent(entry.target[property]);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(callback, { threshold: 0.5 });
-
-    if (refs[0].current) {
-      refs.forEach((ref) => observer.observe(ref.current));
-      setCurrent(refs[0].current[property]);
-    }
-
-    return () => {
-      if (refs[0].current) {
-        refs.forEach((ref) => observer.unobserve(ref.current));
-      }
-    };
-  }, [bunsRef, mainsRef, saucesRef]);
 
   return (
     <div className={ingredientsStyles.tab}>
@@ -104,32 +77,67 @@ const Ingredients = ({ ingredients }) => {
       )}
       <ul className={`pb-10 pt-6 pl-4 pr-4 ${ingredientsStyles.ul}`}>
         {ingredients.map((ingredient) => (
-          <li
+          <IngredientItem
+            ingredient={ingredient}
             key={ingredient._id}
-            className={ingredientsStyles.li}
-          >
-            <div className={`pr-4 pl-4 pb-1`}>
-              <img
-                id={ingredient.id}
-                src={ingredient.image}
-                alt={ingredient.name}
-              ></img>
-              <p
-                className={`mt-1 mb-1 text text_type_digits-default ${ingredientsStyles.price}`}
-              >
-                {ingredient.price}
-                <CurrencyIcon type="primary" />
-              </p>
-            </div>
-            <p
-              className={`text text_type_main-default ${ingredientsStyles.description}`}
-            >
-              {ingredient.name}
-            </p>
-          </li>
+            openModal={openModal}
+          />
         ))}
       </ul>
     </>
+  );
+};
+
+const IngredientItem = ({ ingredient, openModal }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "ingredient",
+    item: ingredient,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+  const { fillings, bun } = useSelector(
+    (state) => state.ingredientsConstructor
+  );
+
+  const counter = useMemo(() => {
+    if (bun && ingredient._id === bun._id) return 2;
+    let t = 0;
+    fillings.forEach((elem) => {
+      if (elem._id === ingredient._id) t++;
+    });
+    return t;
+  }, [fillings, ingredient._id, bun]);
+
+  return (
+    <li
+      onClick={() => openModal(ingredient)}
+      className={ingredientsStyles.li}
+      ref={drag}
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    >
+      <div className={`pr-4 pl-4 pb-1`}>
+        <img
+          id={ingredient.id}
+          src={ingredient.image}
+          alt={ingredient.name}
+        ></img>
+        <p
+          className={`mt-1 mb-1 text text_type_digits-default ${ingredientsStyles.price}`}
+        >
+          {ingredient.price}
+          <CurrencyIcon type="primary" />
+        </p>
+        <div className={ingredientsStyles.counter}>
+          {counter > 0 && <Counter count={counter} size="default" />}
+        </div>
+      </div>
+      <p
+        className={`text text_type_main-default ${ingredientsStyles.description}`}
+      >
+        {ingredient.name}
+      </p>
+    </li>
   );
 };
 
@@ -143,11 +151,41 @@ export const BurgerIngredients = () => {
   const bunsRef = useRef();
   const saucesRef = useRef();
   const ingredientsRef = useRef();
+  const [current, setCurrent] = useState("one");
+
+  const scrollHandler = () => {
+    if (!ingredientsRef || !bunsRef || !saucesRef || !mainsRef) {
+      setCurrent("one");
+      return;
+    }
+
+    const getHeight = (ref) => {
+      return Math.abs(
+        ingredientsRef.current.getBoundingClientRect().top -
+          ref.current.getBoundingClientRect().top
+      );
+    };
+
+    const mainsHeight = getHeight(mainsRef);
+    const saucesHeight = getHeight(saucesRef);
+    const bunsHeight = getHeight(bunsRef);
+    const minHeight = Math.min(bunsHeight, saucesHeight, mainsHeight);
+
+    setCurrent(
+      bunsHeight === minHeight
+        ? "one"
+        : saucesHeight === minHeight
+        ? "two"
+        : "three"
+    );
+  };
 
   return (
     <div className="mt-10">
       <h1 className="text mb-5 text_type_main-large">Соберите бургер</h1>
       <Tabs
+        current={current}
+        setCurrent={setCurrent}
         ingredientsRef={ingredientsRef}
         bunsRef={bunsRef}
         mainsRef={mainsRef}
@@ -155,6 +193,7 @@ export const BurgerIngredients = () => {
       />
       <div
         ref={ingredientsRef}
+        onScroll={scrollHandler}
         className={`mt-10 ${ingredientsStyles.ingredients}`}
       >
         <div ref={bunsRef} id="one">

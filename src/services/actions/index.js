@@ -9,19 +9,18 @@ export function postOrder(idOrdersArray) {
     dispatch({
       type: POST_ORDER_REQUEST,
     });
-    sendOrders(idOrdersArray).then((res) => {
-      // Функция sendOrders() в себя что-то принимает??
-      // Изменить название функции запроса
-      if (res && res.success) {
+    sendOrders(idOrdersArray)
+      .then((res) => {
         dispatch({
           type: POST_ORDER_SUCCESS,
-          data: res.data,
+          data: res.order.number,
         });
-      } else {
+      })
+      .catch((err) => {
+        console.log(err)
         dispatch({
           type: POST_ORDER_FAILED,
         });
-      }
-    });
+      });
   };
 }
