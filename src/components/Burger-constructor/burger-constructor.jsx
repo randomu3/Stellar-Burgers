@@ -20,6 +20,7 @@ import { postOrder } from "../../services/actions";
 const ComponentsList = () => {
   const orders = useSelector((state) => state.ingredientsConstructor);
 
+
   const dispatch = useDispatch();
   // eslint-disable-next-line no-empty-pattern, no-unused-vars
   const [_, drop] = useDrop(() => ({

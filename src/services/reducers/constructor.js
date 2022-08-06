@@ -3,6 +3,7 @@ import {
   ADD_BUN,
   DELETE_FILLING,
   MOVE_FILLING,
+  REFRESH_INGREDIENTS,
 } from "../actions/constructor";
 import update from "immutability-helper";
 
@@ -35,6 +36,9 @@ export const ingredientsConstructorReducer = (state = initialState, action) => {
         ...state,
         fillings,
       };
+    }
+    case REFRESH_INGREDIENTS: {
+      return initialState;
     }
     case MOVE_FILLING: {
       const dragItem = state.fillings[action.payload.dragIndex];
