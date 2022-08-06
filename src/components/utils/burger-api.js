@@ -4,7 +4,7 @@ const checkReponse = (res) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export function getIngredients() {
+export function getIngredientsRequest() {
   return fetch(`${BASE_URL}/ingredients`)
     .then(checkReponse)
     .then(({ data }) => data)
