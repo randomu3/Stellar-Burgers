@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 import {
   Logo,
@@ -37,14 +38,16 @@ const ListOrders = () => {
 
 const PersonalAccount = () => {
   return (
-    <button
+    <NavLink
+      to="/profile"
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
+      activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
         <ProfileIcon type="secondary" />
       </div>
       Личный кабинет
-    </button>
+    </NavLink>
   );
 };
 

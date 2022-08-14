@@ -1,36 +1,37 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AppHeader } from "../Header/header";
-import { BurgerIngredients } from "../Burger-ingredients/burger-ingredients";
-import { BurgerConstructor } from "../Burger-constructor/burger-constructor";
-import appStyles from "./app.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
+import { Constructor, LoginPage } from "../pages";
+import { ProfilePage } from "../pages/profile";
+import { RegisterPage } from "../pages/register";
 
 export const App = () => {
-  const { ingredientsRequest, ingredientsFailed } = useSelector(
-    (state) => state.ingredients
-  );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
-  if (ingredientsFailed) {
-    return <p>Данные не загружены</p>;
-  }
-
-  if (ingredientsRequest) {
-    return <p>Данные загружаются...</p>;
-  }
-
   return (
-    <div className={appStyles.app}>
+    <Router>
       <AppHeader />
-      <main className={appStyles.main}>
-        <BurgerIngredients />
-        <BurgerConstructor />
-      </main>
-    </div>
+      <Switch>
+        <Route path="/" exact={true}>
+          <Constructor />
+        </Route>
+        <Route path="/profile" exact={true}>
+          <ProfilePage />
+        </Route>
+        <Route path="/login" exact={true}>
+          <LoginPage />
+        </Route>
+        <Route path="/register " exact={true}>
+          <RegisterPage />
+        </Route>
+        {/* <Route path="/forgot-password " exact={true}>
+          <ForgotPassPage />
+        </Route> */}
+        {/* <Route path="/ingredients/:id " exact={true}>
+          <IngredientPage />
+        </Route> */}
+        {/* <Route path="/reset-password " exact={true}>
+          <ResetPassPage />
+        </Route> */}
+      </Switch>
+    </Router>
   );
 };
