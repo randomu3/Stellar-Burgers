@@ -1,5 +1,6 @@
-import { Constructor } from './constructor';
-import { LoginPage } from './login';
-import { ProfilePage } from './profile';
+import { ConstructorPage } from "./constructor";
+import { SignInPage } from "./sign-in";
+import { ProfilePage } from "./profile";
+import { RegisterPage } from "./register";
 
-export { LoginPage, Constructor, ProfilePage };
+export { SignInPage, ConstructorPage, ProfilePage, RegisterPage };

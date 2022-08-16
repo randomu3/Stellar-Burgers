@@ -5,7 +5,7 @@ import appStyles from "./construcor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/actions/ingredients";
 
-export function Constructor() {
+export function ConstructorPage () {
   const { ingredientsRequest, ingredientsFailed } = useSelector(
     (state) => state.ingredients
   );

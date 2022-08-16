@@ -1,18 +1,17 @@
 .app {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  gap: 40px;
+}
+
+@media screen and (max-width: 1920px) {
+  .app {
+    box-sizing: border-box;
   }
-  
-  .main {
-    display: flex;
-    gap: 40px;
-  }
-  
-  @media screen and (max-width: 1920px) {
-    .app {
-      box-sizing: border-box;
-    }
-  }
-  
+}

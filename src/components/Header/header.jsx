@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useCallback } from "react";
+import { NavLink, useHistory } from "react-router-dom";
 
 import {
   Logo,
@@ -9,6 +9,27 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import headerStyles from "./header.module.css";
+
+const PersonalAccount = () => {
+  // const history = useHistory();
+  // const onClick = useCallback(() => {
+  //   history.replace({ pathname: "/profile" });
+  // }, [history]);
+
+  return (
+    <NavLink
+      // onClick={onClick}
+      to="/profile"
+      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
+      activeClassName={headerStyles.button_active}
+    >
+      <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
+        <ProfileIcon type="secondary" />
+      </div>
+      Личный кабинет
+    </NavLink>
+  );
+};
 
 const ButtonConstructor = () => {
   return (
@@ -33,21 +54,6 @@ const ListOrders = () => {
       </div>
       Лента заказов
     </button>
-  );
-};
-
-const PersonalAccount = () => {
-  return (
-    <NavLink
-      to="/profile"
-      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
-      activeClassName={headerStyles.button_active}
-    >
-      <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
-        <ProfileIcon type="secondary" />
-      </div>
-      Личный кабинет
-    </NavLink>
   );
 };
 

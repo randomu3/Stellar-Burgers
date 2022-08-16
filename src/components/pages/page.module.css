@@ -1,0 +1,50 @@
+.loginWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+}
+
+.inputs {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  width: 480px;
+  align-items: center;
+}
+
+.inputs div {
+  width: 100%;
+}
+
+.inputs div div {
+  text-align: end;
+}
+
+.text_under_the_form {
+  margin-top: 80px;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text_link {
+  color: #4c4cff;
+}
+
+.text {
+  color: #8585AD;
+}
