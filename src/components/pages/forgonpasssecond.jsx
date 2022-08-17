@@ -1,30 +1,45 @@
 import {
     Button,
-    EmailInput,
     Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import { Link } from "react-router-dom";
+import { checkReponse } from "../utils/burger-api";
+import { data } from "../utils/data";
 
 import styles from "./page.module.css";
 
 export function ForgotPassSecondPage() {
     const [value, setValue] = React.useState("")
     const inputRef = React.useRef(null)
-    const onIconClick = () => {
-        setTimeout(() => inputRef.current.focus(), 0)
-        alert('Icon Click Callback')
-    }
 
     // PasswordInput
     const [valuePass, setValuePass] = React.useState("");
     const onChangePassword = (e) => {
         setValuePass(e.target.value);
     };
+
+    const onSubmitForm = (e) => {
+        e.preventDefault()
+        fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+            method: "POST",
+            body: JSON.stringify({
+                password: valuePass,
+                token: ""
+            }),
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+            .then(checkReponse)
+            .then(data => console.log(data.message))
+            .catch(error => console.log("error", error))
+    }
+
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={onSubmitForm}>
                 <label className={`text text_type_main-medium ${styles.label}`}>
                     Восстановление пароля
                 </label>

@@ -45,7 +45,7 @@ export function SignInPage() {
             Вы — новый пользователь? <Link to="/register" className={styles.text_link}>Зарегистрироваться</Link>
           </label>
           <label className={`text text_type_main-default ${styles.text}`}>
-            Забыли пароль? <Link to="/forgot-password-1" className={styles.text_link}>Восстановить пароль</Link>
+            Забыли пароль? <Link to="/forgot-password" className={styles.text_link}>Восстановить пароль</Link>
           </label>
         </div>
       </form>

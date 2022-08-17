@@ -20,10 +20,10 @@ export const App = () => {
         <Route path="/register" exact>
           <RegistrationPage />
         </Route>
-        <Route path="/forgot-password-1" exact>
+        <Route path="/forgot-password" exact>
           <ForgotPassFirstPage />
         </Route>
-        <Route path="/forgot-password-2" exact>
+        <Route path="/reset-password" exact>
           <ForgotPassSecondPage />
         </Route>
       </Switch>

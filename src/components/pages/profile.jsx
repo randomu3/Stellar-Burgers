@@ -25,9 +25,9 @@ export function ProfilePage() {
             <div className={styles.profile_links}>
                 <nav>
                     {/* Доделать <NavLink></NavLink> */}
-                    <NavLink activeClassName={styles.link_active} to="/profile" className={`text text_type_main-medium ${styles.link}`}>Профиль</NavLink>
-                    <Link activeClassName={styles.link_active} className={`text text_type_main-medium ${styles.link}`}>История заказов</Link>
-                    <Link activeClassName={styles.link_active} className={`text text_type_main-medium ${styles.link}`}>Выход</Link>
+                    <NavLink to="/profile" activeClassName={styles.link_active} className={`text text_type_main-medium ${styles.link}`}>Профиль</NavLink>
+                    <button className={`text text_type_main-medium ${styles.link}`}>История заказов</button>
+                    <button className={`text text_type_main-medium ${styles.link}`}>Выход</button>
                 </nav>
                 <span className={`text text_type_main-default ${styles.description}`}>В этом разделе вы можете изменить свои персональные данные</span>
             </div>

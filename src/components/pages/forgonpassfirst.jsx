@@ -1,10 +1,10 @@
 import {
     Button,
     EmailInput,
-    Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import { Link } from "react-router-dom";
+import { checkReponse } from "../utils/burger-api";
 
 import styles from "./page.module.css";
 
@@ -14,10 +14,26 @@ export function ForgotPassFirstPage() {
     const onChangeMail = e => {
         setValueMail(e.target.value)
     }
-    
+
+    const onSubmitForm = (e) => {
+        e.preventDefault()
+        fetch('https://norma.nomoreparties.space/api/password-reset', {
+            method: 'POST', // или 'PUT'
+            body: JSON.stringify({
+                email: valueMail
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(checkReponse)
+            .then(data => console.log(data.message)) // Ревьюер, почему сервер даже на пустую строку выдает success
+            .catch(error => console.log("error", error))
+    }
+
     return (
         <div className={styles.loginWrapper}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={onSubmitForm}>
                 <label className={`text text_type_main-medium ${styles.label}`}>
                     Восстановление пароля
                 </label>

@@ -11,14 +11,8 @@ import {
 import headerStyles from "./header.module.css";
 
 const PersonalAccount = () => {
-  // const history = useHistory();
-  // const onClick = useCallback(() => {
-  //   history.replace({ pathname: "/profile" });
-  // }, [history]);
-
   return (
     <NavLink
-      // onClick={onClick}
       to="/profile"
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
       activeClassName={headerStyles.button_active}
@@ -33,14 +27,16 @@ const PersonalAccount = () => {
 
 const ButtonConstructor = () => {
   return (
-    <button
-      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default ${headerStyles.button_active} ${headerStyles.button}`}
+    <NavLink
+      to="/"
+      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
+      activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.constructor}`}>
-        <BurgerIcon type="primary" />
+        <BurgerIcon type="secondary" />
       </div>
       Конструктор
-    </button>
+    </NavLink>
   );
 };
 
