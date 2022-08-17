@@ -12,9 +12,6 @@
   align-items: center;
 }
 
-.label {
-}
-
 .inputs {
   margin-top: 24px;
   margin-bottom: 24px;
@@ -43,8 +40,51 @@
 
 .text_link {
   color: #4c4cff;
+  text-decoration: none;
 }
 
 .text {
+  color: #8585ad;
+}
+
+.input_password {
+  position: relative;
+}
+
+.profile_wrapper {
+  display: flex;
+  margin: 120px auto 0;
+  align-items: flex-start;
+  gap: 60px;
+  max-width: 1244px;
+}
+
+.submit_form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile_links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  width: 320px;
+}
+
+.link {
+  text-decoration: none;
+  height: 64px;
+  display: flex;
+  align-items: center;
   color: #8585AD;
+}
+
+.link_active {
+  color: #ffffff;
+}
+
+.description {
+  color: #8585ad;
+  margin-top: 80px;
 }
