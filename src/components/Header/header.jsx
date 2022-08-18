@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 import {
   Logo,
@@ -11,6 +11,7 @@ import {
 import headerStyles from "./header.module.css";
 
 const PersonalAccount = () => {
+  const { pathname } = useLocation();
   return (
     <NavLink
       to="/profile"
@@ -18,7 +19,7 @@ const PersonalAccount = () => {
       activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
-        <ProfileIcon type="secondary" />
+        <ProfileIcon type={pathname === '/profile' ? "primary" : "secondary"} />
       </div>
       Личный кабинет
     </NavLink>
@@ -26,6 +27,7 @@ const PersonalAccount = () => {
 };
 
 const ButtonConstructor = () => {
+  const { pathname } = useLocation();
   return (
     <NavLink
       exact
@@ -34,7 +36,7 @@ const ButtonConstructor = () => {
       activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.constructor}`}>
-        <BurgerIcon type="secondary" />
+        <BurgerIcon type={pathname === '/' ? "primary" : "secondary"} />
       </div>
       Конструктор
     </NavLink>
