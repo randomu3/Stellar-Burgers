@@ -28,6 +28,7 @@ const PersonalAccount = () => {
 const ButtonConstructor = () => {
   return (
     <NavLink
+      exact
       to="/"
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
       activeClassName={headerStyles.button_active}
