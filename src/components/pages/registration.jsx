@@ -4,9 +4,9 @@ import {
     Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useLayoutEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { register } from "../../services/actions/auth";
 
 import styles from "./page.module.css";
@@ -18,6 +18,14 @@ export function RegistrationPage() {
         password: "",
     })
     const dispatch = useDispatch();
+    const history = useHistory();
+    const { isAuthorized, isLoading } = useSelector(state => state.auth)
+
+    useLayoutEffect(() => {
+        if (isAuthorized && !isLoading) {
+            history.replace("/")
+        }
+    }, [history, isAuthorized, isLoading])
 
     const onChangeInputs = e => {
         setForm({ ...form, [e.target.name]: e.target.value })

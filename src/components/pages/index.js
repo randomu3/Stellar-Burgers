@@ -7,8 +7,10 @@ import { ForgotPassSecondPage } from "./forgonpasssecond";
 import { OrdersFeed } from "./orderFeed";
 import { Order } from "./order";
 import { Feed } from "./feed";
+import { NotFound404 } from "./notfound";
 
 export {
+  NotFound404,
   Order,
   SignInPage,
   ConstructorPage,

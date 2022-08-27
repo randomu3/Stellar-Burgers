@@ -2,7 +2,7 @@ import {
     Button,
     EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { BASE_URL, checkReponse } from "../utils/burger-api";
@@ -10,18 +10,19 @@ import { BASE_URL, checkReponse } from "../utils/burger-api";
 import styles from "./page.module.css";
 
 export function ForgotPassFirstPage() {
+    const [valueMail, setValueMail] = React.useState('')
     const { isAuthorized, isLoading } = useSelector(state => state.auth)
     const history = useHistory();
-    const [valueMail, setValueMail] = React.useState('')
-    const onChangeMail = e => {
-        setValueMail(e.target.value)
-    }
-    console.log(isAuthorized)
+
     useLayoutEffect(() => {
         if (isAuthorized && !isLoading) {
             history.replace("/")
         }
     }, [history, isAuthorized, isLoading])
+
+    const onChangeMail = e => {
+        setValueMail(e.target.value)
+    }
 
     const onSubmitForm = (e) => {
         e.preventDefault()
@@ -42,27 +43,24 @@ export function ForgotPassFirstPage() {
     }
 
     return (
-        <>
-            {isAuthorized && !isLoading ? null : (<div className={styles.loginWrapper}>
-                <form className={styles.form} onSubmit={onSubmitForm}>
-                    <label className={`text text_type_main-medium ${styles.label}`}>
-                        Восстановление пароля
+        <div className={styles.loginWrapper}>
+            <form className={styles.form} onSubmit={onSubmitForm}>
+                <label className={`text text_type_main-medium ${styles.label}`}>
+                    Восстановление пароля
+                </label>
+                <div className={styles.inputs}>
+                    <EmailInput onChange={onChangeMail} value={valueMail} name={'email'} />
+                </div>
+                <Button type="primary" size="medium">
+                    Восстановить
+                </Button>
+                <div className={styles.text_under_the_form}>
+                    {/* Исправить span на <Link></Link> */}
+                    <label className={`text text_type_main-default ${styles.text}`}>
+                        Вспомнили пароль? <Link to="/login" className={styles.text_link}>Войти</Link>
                     </label>
-                    <div className={styles.inputs}>
-                        <EmailInput onChange={onChangeMail} value={valueMail} name={'email'} />
-                    </div>
-                    <Button type="primary" size="medium">
-                        Восстановить
-                    </Button>
-                    <div className={styles.text_under_the_form}>
-                        {/* Исправить span на <Link></Link> */}
-                        <label className={`text text_type_main-default ${styles.text}`}>
-                            Вспомнили пароль? <Link to="/login" className={styles.text_link}>Войти</Link>
-                        </label>
-                    </div>
-                </form>
-            </div>
-            )}
-        </>
-    );
+                </div>
+            </form>
+        </div>
+    )
 }

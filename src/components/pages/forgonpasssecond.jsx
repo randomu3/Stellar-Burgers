@@ -3,7 +3,8 @@ import {
     Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { BASE_URL, checkReponse } from "../utils/burger-api";
 
@@ -13,6 +14,13 @@ export function ForgotPassSecondPage() {
     const [value, setValue] = React.useState("")
     const inputRef = React.useRef(null)
     const history = useHistory();
+    const { isAuthorized, isLoading } = useSelector(state => state.auth)
+
+    useLayoutEffect(() => {
+        if (isAuthorized && !isLoading) {
+            history.replace("/")
+        }
+    }, [history, isAuthorized, isLoading])
     // PasswordInput
     const [valuePass, setValuePass] = React.useState("");
     const onChangePassword = (e) => {
