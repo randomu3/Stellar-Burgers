@@ -4,16 +4,15 @@ import {
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import { Link } from "react-router-dom";
-import { checkReponse } from "../utils/burger-api";
-import { data } from "../utils/data";
+import { Link, useHistory } from "react-router-dom";
+import { BASE_URL, checkReponse } from "../utils/burger-api";
 
 import styles from "./page.module.css";
 
 export function ForgotPassSecondPage() {
     const [value, setValue] = React.useState("")
     const inputRef = React.useRef(null)
-
+    const history = useHistory();
     // PasswordInput
     const [valuePass, setValuePass] = React.useState("");
     const onChangePassword = (e) => {
@@ -22,18 +21,18 @@ export function ForgotPassSecondPage() {
 
     const onSubmitForm = (e) => {
         e.preventDefault()
-        fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
+        fetch(`${BASE_URL}/password-reset/reset/`, {
             method: "POST",
             body: JSON.stringify({
                 password: valuePass,
-                token: ""
+                token: value
             }),
             headers: {
                 "Content-Type": 'application/json'
             }
         })
             .then(checkReponse)
-            .then(data => console.log(data.message))
+            .then(data => { if (data.success) history.replace('/') })
             .catch(error => console.log("error", error))
     }
 

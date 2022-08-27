@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
 
 import {
   Logo,
@@ -14,6 +14,7 @@ const PersonalAccount = () => {
   const { pathname } = useLocation();
   return (
     <NavLink
+      exact
       to="/profile"
       className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
       activeClassName={headerStyles.button_active}
@@ -44,19 +45,24 @@ const ButtonConstructor = () => {
 };
 
 const ListOrders = () => {
+  const { pathname } = useLocation();
   return (
-    <button
+    <NavLink
+      exact
+      to="/profile/orders"
       className={`ml-2 pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button} ${headerStyles.list}`}
+      activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.list_orders}`}>
-        <ListIcon type="secondary" />
+        <ListIcon type={pathname === '/profile/orders' ? "primary" : "secondary"} />
       </div>
       Лента заказов
-    </button>
+    </NavLink>
   );
 };
 
 export const AppHeader = () => {
+
   return (
     <header className={headerStyles.header_semantic}>
       <div className={`p-4 ${headerStyles.header}`}>

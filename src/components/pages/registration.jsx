@@ -4,45 +4,28 @@ import {
     Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { checkReponse } from "../utils/burger-api";
+import { register } from "../../services/actions/auth";
 
 import styles from "./page.module.css";
 
 export function RegistrationPage() {
-    // Input (Name)
-    const [valueName, setValueName] = React.useState('')
-    const inputRefName = React.useRef(null)
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+    })
+    const dispatch = useDispatch();
 
-    // Input (E-mail)
-    const [valueMail, setValueMail] = React.useState('')
-    const onChangeMail = e => {
-        setValueMail(e.target.value)
-    }
-
-    // PasswordInput
-    const [valuePass, setValuePass] = React.useState("");
-    const onChangePassword = (e) => {
-        setValuePass(e.target.value);
+    const onChangeInputs = e => {
+        setForm({ ...form, [e.target.name]: e.target.value })
     };
 
     const onSubmitForm = (e) => {
-        e.preventDefault()
-        fetch('https://norma.nomoreparties.space/api/auth/register', {
-            method: "POST",
-            body: JSON.stringify({
-                email: valueMail,
-                password: valuePass,
-                name: valueName
-            }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-            .then(checkReponse)
-            .then((data) => console.log(data))
-            .catch(error => console.log("error", error))
+        e.preventDefault();
+        dispatch(register(form))
     }
 
     return (
@@ -55,18 +38,17 @@ export function RegistrationPage() {
                     <Input
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={e => setValueName(e.target.value)}
-                        value={valueName}
+                        onChange={onChangeInputs}
+                        value={form.name}
                         name={'name'}
                         error={false}
-                        ref={inputRefName}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
-                    <EmailInput onChange={onChangeMail} value={valueMail} name={'email'} />
+                    <EmailInput onChange={onChangeInputs} value={form.email} name={'email'} />
                     <PasswordInput
-                        onChange={onChangePassword}
-                        value={valuePass}
+                        onChange={onChangeInputs}
+                        value={form.password}
                         name={"password"}
                     />
                 </div>

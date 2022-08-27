@@ -16,11 +16,11 @@ export function ConstructorPage () {
   }, [dispatch]);
 
   if (ingredientsFailed) {
-    return <p>Данные не загружены</p>;
+    return <p>...</p>;
   }
 
   if (ingredientsRequest) {
-    return <p>Данные загружаются...</p>;
+    return <p>...</p>;
   }
 
   return (
