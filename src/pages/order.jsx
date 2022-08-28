@@ -1,6 +1,6 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import { data } from "../utils/data";
+import { data } from "../components/utils/data";
 
 import styles from "./page.module.css";
 

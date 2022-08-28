@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { BurgerIngredients } from "../Burger-ingredients/burger-ingredients";
-import { BurgerConstructor } from "../Burger-constructor/burger-constructor";
+import { BurgerIngredients } from "../components/Burger-ingredients/burger-ingredients";
+import { BurgerConstructor } from "../components/Burger-constructor/burger-constructor";
 import appStyles from "./construcor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../../services/actions/ingredients";
+import { getIngredients } from "../services/actions/ingredients";
 
 export function ConstructorPage () {
   const { ingredientsRequest, ingredientsFailed } = useSelector(

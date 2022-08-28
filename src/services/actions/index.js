@@ -20,8 +20,7 @@ export function postOrder(idOrdersArray) {
           type: REFRESH_INGREDIENTS,
         });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         dispatch({
           type: POST_ORDER_FAILED,
         });

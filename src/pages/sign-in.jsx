@@ -6,7 +6,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { login } from "../../services/actions/auth";
+import { login } from "../services/actions/auth";
 
 import styles from "./page.module.css";
 

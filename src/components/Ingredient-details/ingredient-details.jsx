@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export const IngredientDetails = ({ closeModal }) => {
   const data = useSelector((state) => state.currentIngredient.data);
-
+  
   return (
     <Modal className={IDStyles.modal} closeModal={closeModal}>
       <h3 className="text text_type_main-large">Детали ингредиента</h3>

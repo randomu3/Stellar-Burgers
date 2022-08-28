@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useDrag } from "react-dnd";
 import {
   Tab,
@@ -9,11 +9,11 @@ import {
 import ingredientsStyles from "./burger-ingredients.module.css";
 
 import PropTypes from "prop-types";
-import { IngredientDetails } from "../Ingredient-details/ingredient-details.jsx";
 import { filterIngredients } from "../utils/filter-ingredients";
 import { ingredientPropType } from "../utils/ingredients-shape";
 import { useDispatch, useSelector } from "react-redux";
 import { setInfoIngredient } from "../../services/actions/currentIngredient";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Tabs = ({ mainsRef, bunsRef, saucesRef, current, setCurrent }) => {
   function handleButtonClick(ref) {
@@ -57,24 +57,14 @@ const Tabs = ({ mainsRef, bunsRef, saucesRef, current, setCurrent }) => {
 };
 
 const Ingredients = ({ ingredients }) => {
-  const [isShow, setShow] = useState(false);
   const dispatch = useDispatch();
 
   function openModal(data) {
-    setShow(true);
     dispatch(setInfoIngredient(data));
   }
 
-  const closeModal = useCallback(() => {
-    setShow(false);
-    dispatch(setInfoIngredient(null));
-  }, [dispatch]);
-
   return (
     <>
-      {isShow && (
-        <IngredientDetails closeModal={closeModal}></IngredientDetails>
-      )}
       <ul className={`pb-10 pt-6 pl-4 pr-4 ${ingredientsStyles.ul}`}>
         {ingredients.map((ingredient) => (
           <IngredientItem
@@ -99,7 +89,6 @@ const IngredientItem = ({ ingredient, openModal }) => {
   const { fillings, bun } = useSelector(
     (state) => state.ingredientsConstructor
   );
-
   const counter = useMemo(() => {
     if (bun && ingredient._id === bun._id) return 2;
     let t = 0;
@@ -108,10 +97,18 @@ const IngredientItem = ({ ingredient, openModal }) => {
     });
     return t;
   }, [fillings, ingredient._id, bun]);
+  const history = useHistory()
+  let location = useLocation();
 
   return (
     <li
-      onClick={() => openModal(ingredient)}
+      onClick={() => {
+        openModal(ingredient)
+        history.push({
+          pathname: `/ingredient/${ingredient._id}`,
+          state: { background: location },
+        })
+      }}
       className={ingredientsStyles.li}
       ref={drag}
       style={{ opacity: isDragging ? 0.5 : 1 }}
@@ -162,7 +159,7 @@ export const BurgerIngredients = () => {
     const getHeight = (ref) => {
       return Math.abs(
         ingredientsRef.current.getBoundingClientRect().top -
-          ref.current.getBoundingClientRect().top
+        ref.current.getBoundingClientRect().top
       );
     };
 
@@ -175,8 +172,8 @@ export const BurgerIngredients = () => {
       bunsHeight === minHeight
         ? "one"
         : saucesHeight === minHeight
-        ? "two"
-        : "three"
+          ? "two"
+          : "three"
     );
   };
 

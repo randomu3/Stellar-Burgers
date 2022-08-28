@@ -5,7 +5,7 @@ import {
 import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { BASE_URL, checkReponse } from "../utils/burger-api";
+import { BASE_URL, checkReponse } from "../components/utils/burger-api";
 
 import styles from "./page.module.css";
 

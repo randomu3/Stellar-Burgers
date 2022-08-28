@@ -2,9 +2,9 @@ import { Button, EmailInput, Input, PasswordInput } from "@ya.praktikum/react-de
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { getUser, logout, patchUser } from "../../services/actions/auth";
+import { getUser, logout, patchUser } from "../services/actions/auth";
 
-import useInputState from "../../hooks/useInputState";
+import useInputState from "../hooks/useInputState";
 
 import styles from "./page.module.css";
 

@@ -7,7 +7,7 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { register } from "../../services/actions/auth";
+import { register } from "../services/actions/auth";
 
 import styles from "./page.module.css";
 

@@ -35,6 +35,7 @@ export function setCookie(name, value, props) {
   }
   document.cookie = updatedCookie;
 }
+
 export const register = (data) => (dispatch) => {
   fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
@@ -58,6 +59,7 @@ export const register = (data) => (dispatch) => {
     })
     .catch((error) => console.log("error", error));
 };
+
 export const login = (data) => (dispatch) => {
   fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
@@ -80,6 +82,7 @@ export const login = (data) => (dispatch) => {
     })
     .catch((error) => console.log("error", error));
 };
+
 export const logout = () => (dispatch) => {
   deleteCookie("accessToken");
   dispatch({
@@ -164,6 +167,7 @@ export const patchUser = (data) => (dispatch) => {
       console.log("error", error);
     });
 };
+
 export const fetchWithRefresh = async (url, options) => {
   try {
     const res = await fetch(url, options);

@@ -8,8 +8,10 @@ import { OrdersFeed } from "./orderFeed";
 import { Order } from "./order";
 import { Feed } from "./feed";
 import { NotFound404 } from "./notfound";
+import { IngredientInformation } from "./ingredient";
 
 export {
+  IngredientInformation,
   NotFound404,
   Order,
   SignInPage,

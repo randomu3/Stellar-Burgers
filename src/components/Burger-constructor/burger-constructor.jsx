@@ -16,10 +16,10 @@ import {
   moveFilling,
 } from "../../services/actions/constructor";
 import { postOrder } from "../../services/actions";
+import { useHistory } from "react-router-dom";
 
 const ComponentsList = () => {
   const orders = useSelector((state) => state.ingredientsConstructor);
-
 
   const dispatch = useDispatch();
   // eslint-disable-next-line no-empty-pattern, no-unused-vars
@@ -125,10 +125,18 @@ const Filling = ({ ingredient, deleteFilling, index }) => {
 const ButtonOrder = () => {
   const [isShow, setShow] = useState(false);
   const orders = useSelector((state) => state.ingredientsConstructor);
+  const { isAuthorized } = useSelector((state) => state.auth)
   const isLoading = useSelector((state) => state.postOrder.dataRequest);
   const dispatch = useDispatch();
+  const history = useHistory();
+
 
   function openModal() {
+    if (!isAuthorized) {
+      history.replace("/login")
+      return
+    }
+
     setShow(true);
     let idOrdersArray = orders.fillings.map((ingredient) => ingredient._id);
     idOrdersArray.push(orders.bun?._id, orders.bun?._id);

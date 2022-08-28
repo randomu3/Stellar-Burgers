@@ -379,3 +379,45 @@
   gap: 36px;
   justify-content: space-between;
 }
+
+.wrongUrl {
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.ingredient_information {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.ingredient_name_n_photo {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ingredient_name_n_currency_calories {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.ingredient_currency_calories {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.ingredient_currency {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}

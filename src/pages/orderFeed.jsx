@@ -2,8 +2,8 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import React from "react"
 import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom"
-import { logout } from "../../services/actions/auth";
-import { data } from "../utils/data";
+import { logout } from "../services/actions/auth";
+import { data } from "../components/utils/data";
 
 import styles from "./page.module.css";
 
