@@ -1,19 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BurgerIngredients } from "../components/Burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../components/Burger-constructor/burger-constructor";
 import appStyles from "./construcor.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getIngredients } from "../services/actions/ingredients";
+import { useSelector } from "react-redux";
 
 export function ConstructorPage () {
   const { ingredientsRequest, ingredientsFailed } = useSelector(
     (state) => state.ingredients
   );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   if (ingredientsFailed) {
     return <p>...</p>;

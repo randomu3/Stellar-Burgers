@@ -3,34 +3,35 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
 import { login } from "../services/actions/auth";
 
 import styles from "./page.module.css";
 
 export function SignInPage() {
   const { isAuthorized } = useSelector(state => state.auth)
-  const [form, setForm] = useState({
+  const { values, handleChange } = useForm({
     email: "",
     password: "",
-  })
-  const onChangeInputs = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
+  });
+  const location = useLocation();
+
   const dispatch = useDispatch();
   const onSubmitForm = (e) => {
     e.preventDefault();
-    dispatch(login(form));
+    dispatch(login(values));
   }
 
+  console.log(location.state)
   const history = useHistory();
   useEffect(() => {
     if (isAuthorized) {
-      history.replace("/")
+      history.replace(location.state.from)
     }
-  }, [history, isAuthorized])
+  }, [history, isAuthorized, location.state.from])
 
   return (
     <div className={styles.loginWrapper}>
@@ -39,10 +40,10 @@ export function SignInPage() {
           Вход
         </label>
         <div className={styles.inputs}>
-          <EmailInput value={form.email} onChange={onChangeInputs} name={"email"} />
+          <EmailInput value={values.email} onChange={handleChange} name={"email"} />
           <PasswordInput
-            value={form.password}
-            onChange={onChangeInputs}
+            value={values.password}
+            onChange={handleChange}
             name={"password"}
           />
         </div>

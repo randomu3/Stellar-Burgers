@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import { Redirect, Route, useHistory } from "react-router-dom";
+import { Redirect, Route, useLocation } from "react-router-dom";
 
 export function ProtectedRoute({ children, ...rest }) {
     const { isAuthorized } = useSelector(state => state.auth)
-
+    const location = useLocation();
     return (
         <Route
             {...rest}
@@ -12,9 +12,7 @@ export function ProtectedRoute({ children, ...rest }) {
                 isAuthorized ? (
                     children
                 ) : (
-                    <Redirect
-                        to='/login'
-                    />
+                    <Redirect to={{ pathname: "/login", state: { from: location.state?.from } }} />
                 )
             }
         />

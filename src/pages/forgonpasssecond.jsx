@@ -4,36 +4,36 @@ import {
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { BASE_URL, checkReponse } from "../components/utils/burger-api";
+import { useForm } from "../hooks/useForm";
 
 import styles from "./page.module.css";
 
 export function ForgotPassSecondPage() {
-    const [value, setValue] = React.useState("")
+    const { values, handleChange } = useForm({
+        password: "",
+        token: ""
+    })
     const inputRef = React.useRef(null)
     const history = useHistory();
-    const { isAuthorized, isLoading } = useSelector(state => state.auth)
+    const location = useLocation();
 
     useLayoutEffect(() => {
-        if (isAuthorized && !isLoading) {
+        if (location?.state?.from === "/forgot-password") {
+            history.replace("/reset-password");
+        } else {
             history.replace("/")
         }
-    }, [history, isAuthorized, isLoading])
-    // PasswordInput
-    const [valuePass, setValuePass] = React.useState("");
-    const onChangePassword = (e) => {
-        setValuePass(e.target.value);
-    };
+    }, [history, location?.state?.from])
 
     const onSubmitForm = (e) => {
         e.preventDefault()
         fetch(`${BASE_URL}/password-reset/reset/`, {
             method: "POST",
             body: JSON.stringify({
-                password: valuePass,
-                token: value
+                password: values.password,
+                token: values.token
             }),
             headers: {
                 "Content-Type": 'application/json'
@@ -52,15 +52,15 @@ export function ForgotPassSecondPage() {
                 </label>
                 <div className={styles.inputs}>
                     <PasswordInput
-                        onChange={onChangePassword}
-                        value={valuePass}
+                        onChange={handleChange}
+                        value={values.password}
                         name={"password"}
                     />
                     <Input
                         type={'text'}
                         placeholder={'Введите код из письма'}
-                        onChange={e => setValue(e.target.value)}
-                        value={value}
+                        onChange={handleChange}
+                        value={values.token}
                         name={'name'}
                         error={false}
                         ref={inputRef}

@@ -4,32 +4,33 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { BASE_URL, checkReponse } from "../components/utils/burger-api";
+import { useForm } from "../hooks/useForm";
 
 import styles from "./page.module.css";
 
 export function ForgotPassFirstPage() {
-    const [valueMail, setValueMail] = React.useState('')
     const { isAuthorized, isLoading } = useSelector(state => state.auth)
     const history = useHistory();
+    const location = useLocation();
+
+    const { values, handleChange } = useForm({
+        email: ""
+    })
 
     useLayoutEffect(() => {
         if (isAuthorized && !isLoading) {
-            history.replace("/")
+            history.replace(location?.state?.from || '/');
         }
-    }, [history, isAuthorized, isLoading])
-
-    const onChangeMail = e => {
-        setValueMail(e.target.value)
-    }
+    }, [history, isAuthorized, isLoading, location?.state?.from])
 
     const onSubmitForm = (e) => {
         e.preventDefault()
         fetch(`${BASE_URL}/password-reset`, {
             method: 'POST', // или 'PUT'
             body: JSON.stringify({
-                email: valueMail
+                email: values.email
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ export function ForgotPassFirstPage() {
         })
             .then(checkReponse)
             .then(data => {
-                if (data.success) history.replace('/reset-password') // Ревьюер, почему сервер даже на пустую строку выдает success
+                if (data.success) history.replace('/reset-password', { from: "/forgot-password" })
             })
             .catch(error => console.log("error", error))
     }
@@ -49,7 +50,7 @@ export function ForgotPassFirstPage() {
                     Восстановление пароля
                 </label>
                 <div className={styles.inputs}>
-                    <EmailInput onChange={onChangeMail} value={valueMail} name={'email'} />
+                    <EmailInput onChange={handleChange} value={values.email} name={'email'} />
                 </div>
                 <Button type="primary" size="medium">
                     Восстановить

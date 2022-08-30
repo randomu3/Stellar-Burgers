@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import styles from "./page.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getIngredients } from "../services/actions/ingredients";
 
 export function IngredientInformation() {
     const { id } = useParams();
@@ -11,11 +10,6 @@ export function IngredientInformation() {
         (state) => state.ingredients
     );
     const data = useSelector((state) => state.ingredients.ingredients?.find(ingredient => ingredient._id === id));
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIngredients());
-    }, [dispatch]);
 
     if (ingredientsFailed) {
         return <p>Не удалось загрузить страницу. Произошла непредвиденная ошибка.</p>;

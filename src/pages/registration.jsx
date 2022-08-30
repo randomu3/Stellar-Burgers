@@ -4,19 +4,21 @@ import {
     Input,
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { useForm } from "../hooks/useForm";
 import { register } from "../services/actions/auth";
 
 import styles from "./page.module.css";
 
 export function RegistrationPage() {
-    const [form, setForm] = useState({
+    const { values, handleChange } = useForm({
         name: "",
         email: "",
         password: "",
-    })
+    });
+
     const dispatch = useDispatch();
     const history = useHistory();
     const { isAuthorized, isLoading } = useSelector(state => state.auth)
@@ -26,14 +28,10 @@ export function RegistrationPage() {
             history.replace("/")
         }
     }, [history, isAuthorized, isLoading])
-
-    const onChangeInputs = e => {
-        setForm({ ...form, [e.target.name]: e.target.value })
-    };
-
+    
     const onSubmitForm = (e) => {
         e.preventDefault();
-        dispatch(register(form))
+        dispatch(register(values))
     }
 
     return (
@@ -46,17 +44,17 @@ export function RegistrationPage() {
                     <Input
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={onChangeInputs}
-                        value={form.name}
+                        onChange={handleChange}
+                        value={values.name}
                         name={'name'}
                         error={false}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
-                    <EmailInput onChange={onChangeInputs} value={form.email} name={'email'} />
+                    <EmailInput onChange={handleChange} value={values.email} name={'email'} />
                     <PasswordInput
-                        onChange={onChangeInputs}
-                        value={form.password}
+                        onChange={handleChange}
+                        value={values.password}
                         name={"password"}
                     />
                 </div>

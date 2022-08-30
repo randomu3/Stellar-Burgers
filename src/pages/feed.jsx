@@ -5,7 +5,6 @@ import { data } from "../components/utils/data"
 import styles from "./page.module.css";
 
 export function Feed() {
-
     const order = 12345
     const orderDate = "Сегодня, 16:20 i-GMT+3"
     const orderName = "Death Star Starship Main бургер"
@@ -28,7 +27,7 @@ export function Feed() {
                             <div className={styles.list_n_price}>
                                 <ul className={styles.list}>
                                     {data.slice(0, 6).map((item, index) => (
-                                        <li className={styles.list_item}>
+                                        <li key={index} className={styles.list_item}>
                                             {
                                                 index + 1 === 6 ?
                                                     (
@@ -64,34 +63,34 @@ export function Feed() {
                     <div className={styles.feed_orders}>
                         <div className={styles.feed_indent}>
                             <h3 className={`text text_type_main-medium`}>Готовы:</h3>
-                    {/* map  */}
-                    <ul className={styles.feed_list_orders}>
-                        <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
-                        <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
-                        <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
-                        <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
-                        <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
-                    </ul>
+                            {/* map  */}
+                            <ul className={styles.feed_list_orders}>
+                                <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
+                                <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
+                                <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
+                                <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
+                                <li className={`${styles.feed_orders_ready} text text_type_digits-default`}>034527</li>
+                            </ul>
+                        </div>
+                        <div className={styles.feed_indent}>
+                            <h3 className={`text text_type_main-medium`}>В работе:</h3>
+                            {/* map  */}
+                            <ul className={styles.feed_list_orders}>
+                                <li className={`text text_type_digits-default`}>034527</li>
+                                <li className={`text text_type_digits-default`}>034527</li>
+                                <li className={`text text_type_digits-default`}>034527</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className={`text text_type_main-medium`}>Выполнено за все время:</h2>
+                        <span className={`text text_type_digits-large`}>28 752</span>
+                    </div>
+                    <div>
+                        <h2 className={`text text_type_main-medium`}>Выполнено за сегодня:</h2>
+                        <span className={`text text_type_digits-large`}>138</span>
+                    </div>
                 </div>
-                <div className={styles.feed_indent}>
-                    <h3 className={`text text_type_main-medium`}>В работе:</h3>
-                    {/* map  */}
-                    <ul className={styles.feed_list_orders}>
-                        <li className={`text text_type_digits-default`}>034527</li>
-                        <li className={`text text_type_digits-default`}>034527</li>
-                        <li className={`text text_type_digits-default`}>034527</li>
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <h2 className={`text text_type_main-medium`}>Выполнено за все время:</h2>
-                <span className={`text text_type_digits-large`}>28 752</span>
-            </div>
-            <div>
-                <h2 className={`text text_type_main-medium`}>Выполнено за сегодня:</h2>
-                <span className={`text text_type_digits-large`}>138</span>
-            </div>
-        </div>
             </div >
         </div >
     )

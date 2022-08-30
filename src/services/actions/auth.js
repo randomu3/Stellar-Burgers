@@ -1,5 +1,6 @@
 import { BASE_URL } from "../../components/utils/burger-api";
 import { checkReponse } from "../../components/utils/burger-api";
+import { deleteCookie, getCookie, setCookie } from "../../components/utils/cookie";
 
 export const LOGIN_USER = "LOGIN_USER";
 export const REGISTER_USER = "REGISTER_USER";
@@ -7,34 +8,6 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const CHECK_TOKEN = "CHECK_TOKEN";
 export const LOADING_TRUE = "LOADING_TRUE";
 export const REFRESH_TOKEN = "REFRESH_TOKEN";
-
-export function setCookie(name, value, props) {
-  props = props || {};
-  props = {
-    path: "/",
-    expires: 35900,
-    ...props,
-  };
-  let exp = props.expires;
-  if (typeof exp == "number" && exp) {
-    const d = new Date();
-    d.setTime(d.getTime() + exp * 1000);
-    exp = props.expires = d;
-  }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
-  }
-  value = encodeURIComponent(value);
-  let updatedCookie = name + "=" + value;
-  for (const propName in props) {
-    updatedCookie += "; " + propName;
-    const propValue = props[propName];
-    if (propValue !== true) {
-      updatedCookie += "=" + propValue;
-    }
-  }
-  document.cookie = updatedCookie;
-}
 
 export const register = (data) => (dispatch) => {
   fetch(`${BASE_URL}/auth/register`, {
@@ -185,21 +158,3 @@ export const fetchWithRefresh = async (url, options) => {
     }
   }
 };
-
-export function getCookie(name) {
-  const matches = document.cookie.match(
-    new RegExp(
-      "(?:^|; )" +
-        // eslint-disable-next-line no-useless-escape
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-        "=([^;]*)"
-    )
-  );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-function deleteCookie(name) {
-  setCookie(name, "", {
-    "max-age": -1,
-  });
-}

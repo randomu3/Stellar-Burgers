@@ -6,6 +6,7 @@ import { ProtectedRoute } from "../Protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../services/actions/auth";
 import { IngredientDetails } from "../Ingredient-details/ingredient-details";
+import { getIngredients } from "../../services/actions/ingredients";
 
 export const App = () => {
   const { isLoading } = useSelector(state => state.auth)
@@ -15,6 +16,7 @@ export const App = () => {
   const history = useHistory();
 
   useEffect(() => {
+    dispatch(getIngredients());
     dispatch(getUser())
   }, [dispatch])
 
@@ -48,8 +50,7 @@ export const App = () => {
         <Route path="/register" exact>
           <RegistrationPage />
         </Route>
-        <Route path="/forgot-password" exact>
-          <ForgotPassFirstPage />
+        <Route path="/forgot-password" component={ForgotPassFirstPage} exact>
         </Route>
         <Route path="/reset-password" exact>
           <ForgotPassSecondPage />
