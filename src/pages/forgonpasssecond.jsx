@@ -18,10 +18,9 @@ export function ForgotPassSecondPage() {
     const inputRef = React.useRef(null)
     const history = useHistory();
     const location = useLocation();
-
     useLayoutEffect(() => {
         if (location?.state?.from === "/forgot-password") {
-            history.replace("/reset-password");
+            return undefined
         } else {
             history.replace("/")
         }

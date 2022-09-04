@@ -24,14 +24,12 @@ export function SignInPage() {
     e.preventDefault();
     dispatch(login(values));
   }
-
-  console.log(location.state)
   const history = useHistory();
   useEffect(() => {
     if (isAuthorized) {
-      history.replace(location.state.from)
+      history.replace(location?.state?.from || '/');
     }
-  }, [history, isAuthorized, location.state.from])
+  }, [history, isAuthorized, location?.state?.from])
 
   return (
     <div className={styles.loginWrapper}>

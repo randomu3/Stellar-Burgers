@@ -12,7 +12,7 @@ export function ProtectedRoute({ children, ...rest }) {
                 isAuthorized ? (
                     children
                 ) : (
-                    <Redirect to={{ pathname: "/login", state: { from: location.state?.from } }} />
+                    <Redirect to={{ pathname: "/login", state: { from: location } }} />
                 )
             }
         />
