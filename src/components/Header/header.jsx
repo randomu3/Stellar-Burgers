@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 import {
   Logo,
@@ -9,42 +10,54 @@ import {
 
 import headerStyles from "./header.module.css";
 
-const ButtonConstructor = () => {
+const PersonalAccount = () => {
+  const { pathname } = useLocation();
   return (
-    <button
-      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default ${headerStyles.button_active} ${headerStyles.button}`}
+    <NavLink
+      exact
+      to={{ pathname: "/profile/", state: { from: "/profile/" } }}
+      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
+      activeClassName={headerStyles.button_active}
+    >
+      <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
+        <ProfileIcon type={pathname === '/profile' ? "primary" : "secondary"} />
+      </div>
+      Личный кабинет
+    </NavLink>
+  );
+};
+
+const ButtonConstructor = () => {
+  const { pathname } = useLocation();
+  return (
+    <NavLink
+      exact
+      to="/"
+      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
+      activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.constructor}`}>
-        <BurgerIcon type="primary" />
+        <BurgerIcon type={pathname === '/' ? "primary" : "secondary"} />
       </div>
       Конструктор
-    </button>
+    </NavLink>
   );
 };
 
 const ListOrders = () => {
+  const { pathname } = useLocation();
   return (
-    <button
+    <NavLink
+      exact
+      to={{ pathname: "/feed/", state: { from: "/feed/" } }}
       className={`ml-2 pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button} ${headerStyles.list}`}
+      activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.list_orders}`}>
-        <ListIcon type="secondary" />
+        <ListIcon type={pathname === '/profile/orders' ? "primary" : "secondary"} />
       </div>
       Лента заказов
-    </button>
-  );
-};
-
-const PersonalAccount = () => {
-  return (
-    <button
-      className={`pt-4 pb-4 pr-5 pl-5 text text_type_main-default text_color_inactive ${headerStyles.button}`}
-    >
-      <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
-        <ProfileIcon type="secondary" />
-      </div>
-      Личный кабинет
-    </button>
+    </NavLink>
   );
 };
 
@@ -55,7 +68,9 @@ export const AppHeader = () => {
         <div className={headerStyles.header_left_bar}>
           <ButtonConstructor />
           <ListOrders />
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
         </div>
         <PersonalAccount />
       </div>
