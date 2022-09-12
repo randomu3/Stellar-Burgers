@@ -15,7 +15,7 @@
 .feed {
   display: flex;
   width: 100%;
-  height: calc(100vh - 350px);
+  height: calc(100vh - 254px);
   overflow-y: scroll;
   flex-basis: 600px;
   padding-right: 8px;
@@ -197,6 +197,11 @@
   gap: 24px;
 }
 
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
 .order_n_orderDate {
   display: flex;
   justify-content: space-between;
@@ -221,8 +226,27 @@
 
   background-color: #1c1c21;
   border-radius: 40px;
-  padding: 24px;
+  padding: 40px;
 }
+
+.wrapperPage {
+  color: white;
+  padding: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  background-color: #131316;
+  border-radius: 40px;
+  padding: 40px;
+}
+
 .price {
   display: flex;
   gap: 9px;
@@ -318,7 +342,7 @@
 }
 
 .feed_wrapper {
-  margin: 120px auto 0;
+  margin: 40px auto 0;
   max-width: 1244px;
   display: flex;
   gap: 20px;
@@ -355,11 +379,10 @@
   gap: 8px;
   width: 272px;
   flex-direction: column;
-  max-height: 200px;
+  height: 170px;
   flex-wrap: wrap;
   overflow: hidden;
   overflow-x: scroll;
-  min-height: 152px;
 }
 
 .feed_list_orders::-webkit-scrollbar {
@@ -420,4 +443,10 @@
   align-items: center;
   flex-direction: column;
   gap: 8px;
+}
+
+.status_success {
+  color: #00CCCC;
+  margin-top: 12px;
+  display: block;
 }

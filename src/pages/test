@@ -1,0 +1,36 @@
+<ul className={styles.items}>
+          {order.ingredients.map((item, index) => {
+            ingredients.filter((ingredient) => {
+              if (ingredient._id === item) {
+                console.log("ingredient", ingredient);
+                return (
+                  <li key={index} className={styles.item}>
+                    <div className={styles.item_li_n_img}>
+                      <div className={styles.item_li}>
+                        <img
+                          className={styles.item_img}
+                          src={ingredient.image_mobile}
+                          alt={ingredient.name}
+                        />
+                      </div>
+                    </div>
+                    <span
+                      className={`text text_type_main-default ${styles.item_title}`}
+                    >
+                      {item.name}
+                    </span>
+                    <div className={styles.quantity_n_price}>
+                      <span
+                        className={`text text_type_digits-default ${styles.item_price}`}
+                      >
+                        {testCounter} x {item.price}
+                      </span>
+                      <CurrencyIcon type="primary" />
+                    </div>
+                  </li>
+                );
+              }
+            });
+            //
+          })}
+        </ul>

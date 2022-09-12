@@ -20,7 +20,7 @@ const PersonalAccount = () => {
       activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.personal_account_icon}`}>
-        <ProfileIcon type={pathname === '/profile' ? "primary" : "secondary"} />
+        <ProfileIcon type={pathname === '/profile/' ? "primary" : "secondary"} />
       </div>
       Личный кабинет
     </NavLink>
@@ -54,7 +54,7 @@ const ListOrders = () => {
       activeClassName={headerStyles.button_active}
     >
       <div className={`mr-2 ${headerStyles.list_orders}`}>
-        <ListIcon type={pathname === '/profile/orders' ? "primary" : "secondary"} />
+        <ListIcon type={pathname === '/feed/' ? "primary" : "secondary"} />
       </div>
       Лента заказов
     </NavLink>

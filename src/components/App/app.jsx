@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
-import { ConstructorPage, ProfilePage, SignInPage, RegistrationPage, ForgotPassFirstPage, ForgotPassSecondPage, OrdersFeed, Order, Feed, NotFound404, IngredientInformation } from "../../pages";
+import { ConstructorPage, ProfilePage, SignInPage, RegistrationPage, ForgotPassFirstPage, ForgotPassSecondPage, OrdersFeed, Order, Feed, NotFound404, IngredientInformation, OrderPage } from "../../pages";
 import { AppHeader } from "../Header/header";
 import { ProtectedRoute } from "../Protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,11 +58,14 @@ export const App = () => {
         <Route path="/feed" exact>
           <Feed />
         </Route>
+        <Route path="/feed/:id" exact>
+          <OrderPage />
+        </Route>
         <ProtectedRoute path="/profile" exact>
           <ProfilePage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders/:id" exact>
-          <Order />
+          <OrderPage />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
           <OrdersFeed />
@@ -74,6 +77,16 @@ export const App = () => {
       {background && (
         <Route path="/ingredient/:id" exact>
           <IngredientDetails closeModal={onCloseModal} />
+        </Route>
+      )}
+      {background && (
+        <Route path="/feed/:id" exact>
+          <Order closeModal={onCloseModal} />
+        </Route>
+      )}
+      {background && (
+        <Route path="/profile/orders/:id" exact>
+          <Order closeModal={onCloseModal} />
         </Route>
       )}
     </ >

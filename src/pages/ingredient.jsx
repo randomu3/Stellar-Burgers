@@ -20,7 +20,7 @@ export function IngredientInformation() {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapperPage}>
             <div className={styles.ingredient_information}>
                 <div className={styles.ingredient_name_n_photo}>
                     <h1 className={`text text_type_main-large`}>Детали ингредиента</h1>

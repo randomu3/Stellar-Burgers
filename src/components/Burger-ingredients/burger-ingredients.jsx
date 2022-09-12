@@ -106,7 +106,7 @@ const IngredientItem = ({ ingredient, openModal }) => {
         openModal(ingredient)
         history.push({
           pathname: `/ingredient/${ingredient._id}`,
-          state: { background: location },
+          state: { background: location },  
         })
       }}
       className={ingredientsStyles.li}
