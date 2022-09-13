@@ -1,6 +1,20 @@
 import React, { useEffect } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
-import { ConstructorPage, ProfilePage, SignInPage, RegistrationPage, ForgotPassFirstPage, ForgotPassSecondPage, OrdersFeed, Order, Feed, NotFound404, IngredientInformation, OrderPage } from "../../pages";
+import {
+  ConstructorPage,
+  ProfilePage,
+  SignInPage,
+  RegistrationPage,
+  ForgotPassFirstPage,
+  ForgotPassSecondPage,
+  OrdersFeed,
+  Order,
+  Feed,
+  NotFound404,
+  IngredientInformation,
+  OrderPage,
+  FeedPage,
+} from "../../pages";
 import { AppHeader } from "../Header/header";
 import { ProtectedRoute } from "../Protected-route/protected-route";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +23,7 @@ import { IngredientDetails } from "../Ingredient-details/ingredient-details";
 import { getIngredients } from "../../services/actions/ingredients";
 
 export const App = () => {
-  const { isLoading } = useSelector(state => state.auth)
+  const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   let background;
   const location = useLocation();
@@ -17,11 +31,11 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(getUser())
-  }, [dispatch])
+    dispatch(getUser());
+  }, [dispatch]);
 
   if (isLoading) {
-    return <p>. . .</p>
+    return <p>. . .</p>;
   }
 
   if (history.action === "PUSH" || history.action === "REPLACE") {
@@ -50,8 +64,11 @@ export const App = () => {
         <Route path="/register" exact>
           <RegistrationPage />
         </Route>
-        <Route path="/forgot-password" component={ForgotPassFirstPage} exact>
-        </Route>
+        <Route
+          path="/forgot-password"
+          component={ForgotPassFirstPage}
+          exact
+        ></Route>
         <Route path="/reset-password" exact>
           <ForgotPassSecondPage />
         </Route>
@@ -59,7 +76,7 @@ export const App = () => {
           <Feed />
         </Route>
         <Route path="/feed/:id" exact>
-          <OrderPage />
+          <FeedPage />
         </Route>
         <ProtectedRoute path="/profile" exact>
           <ProfilePage />
@@ -89,6 +106,6 @@ export const App = () => {
           <Order closeModal={onCloseModal} />
         </Route>
       )}
-    </ >
+    </>
   );
 };

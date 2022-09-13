@@ -10,6 +10,7 @@ import { Feed } from "./feed";
 import { NotFound404 } from "./notfound";
 import { IngredientInformation } from "./ingredient";
 import { OrderPage } from "./orderPage";
+import { FeedPage } from "./feedPage";
 
 export {
   IngredientInformation,
@@ -23,5 +24,6 @@ export {
   ForgotPassSecondPage,
   OrdersFeed,
   Feed,
-  OrderPage
+  OrderPage,
+  FeedPage,
 };

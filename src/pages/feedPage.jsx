@@ -7,9 +7,8 @@ import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
 import { WS_CONNECTION_START } from "../services/actions/wsActionTypes";
-import { getCookie } from "../components/utils/cookie";
 
-export function OrderPage() {
+export function FeedPage() {
   const { id } = useParams();
   const { ingredients } = useSelector((state) => state.ingredients);
   const { orders } = useSelector((state) => state.ws);
@@ -25,9 +24,7 @@ export function OrderPage() {
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      payload: `wss://norma.nomoreparties.space/orders?token=${
-        getCookie("accessToken").split(" ")[1]
-      }`,
+      payload: "wss://norma.nomoreparties.space/orders/all",
     });
   }, [dispatch]);
 
