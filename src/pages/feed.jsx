@@ -20,6 +20,9 @@ export function Feed() {
   const location = useLocation();
 
   const orders = useSelector((state) => state.ws.orders);
+  const totalOrders = useSelector((state) => state.ws);
+  console.log("totalOrders", totalOrders);
+
   useEffect(() => {
     dispatch({ type: WS_CLEAR_ORDERS });
     dispatch({
@@ -31,8 +34,6 @@ export function Feed() {
   function openModal(data) {
     dispatch(setInfoIngredient(data)); // ?? change dispatch
   }
-
-  console.log("orders", orders);
 
   return (
     <div className={styles.feed_wrapper}>
@@ -127,9 +128,6 @@ function OrderItem({ order, onClick }) {
     return order.ingredients.reduce((previousValue, currentValue) => {
       const ingredient = ingredients.find((e) => e._id === currentValue);
       let sumPrice = previousValue + ingredient.price;
-      if (ingredient.type === "bun") {
-        sumPrice += ingredient.price;
-      }
       return sumPrice;
     }, 0);
   }, [ingredients, order.ingredients]);

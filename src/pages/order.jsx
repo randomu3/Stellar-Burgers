@@ -1,9 +1,10 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Modal } from "../components/Modal/Modal";
-import { data } from "../components/utils/data";
+import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
 
@@ -13,15 +14,44 @@ export function Order({ closeModal }) {
   const { orders } = useSelector((state) => state.ws);
   const order = orders.filter((order) => order._id === id)[0];
 
-  console.log("id", id);
-  console.log("order", order);
-  console.log("ingredients", ingredients);
+  const countIngredients = useMemo(() => {
+    const currentIngredients = order.ingredients.map((id) =>
+      ingredients.find((ingredient) => ingredient._id === id)
+    );
+    const obj = {};
+    currentIngredients.forEach((el) => {
+      const _id = el._id;
+      if (_id in obj) {
+        obj[_id].count++;
+      } else {
+        obj[_id] = el;
+        obj[_id].count = 1;
+      }
+    });
+    return Object.values(obj);
+  }, [ingredients, order.ingredients]);
 
-  const order_number = "0000";
-  const name = "Black Hole Singularity острый бургер";
-  const testDate = "Вчера, 13:50 i-GMT+3";
-  const testPrice = 510;
-  const testCounter = 2;
+  const memoizedPrice = useMemo(() => {
+    return countIngredients.reduce((previousValue, currentValue) => {
+      return previousValue + currentValue.price * currentValue.count;
+    }, 0);
+  }, [countIngredients]);
+
+  
+  let stringOfDate = "";
+
+  if (isToday(Date.parse(order.createdAt))) {
+    stringOfDate = "Сегодня, ";
+  } else if (isYesterday(Date.parse(order.createdAt))) {
+    stringOfDate = "Вчера, ";
+  } else {
+    stringOfDate =
+      formatDistanceToNow(Date.parse(order.createdAt), {
+        locale: ru,
+      }) + " назад, ";
+  }
+
+  stringOfDate += format(Date.parse(order.createdAt), "HH:mm zzz");
 
   return (
     <Modal className={styles.wrapper} closeModal={closeModal}>
@@ -41,50 +71,47 @@ export function Order({ closeModal }) {
           Состав:
         </span>
         <ul className={styles.items}>
-          {order.ingredients.map((item, index) =>
-            ingredients.filter(
-              (ingredient) =>
-                ingredient._id === item && (
-                  <li key={index} className={styles.item}>
-                    <div className={styles.item_li_n_img}>
-                      <div className={styles.item_li}>
-                        <img
-                          className={styles.item_img}
-                          src={ingredient.image_mobile}
-                          alt={ingredient.name}
-                        />
-                      </div>
-                    </div>
-                    <span
-                      className={`text text_type_main-default ${styles.item_title}`}
-                    >
-                      {item.name}
-                    </span>
-                    <div className={styles.quantity_n_price}>
-                      <span
-                        className={`text text_type_digits-default ${styles.item_price}`}
-                      >
-                        {testCounter} x {item.price}
-                      </span>
-                      <CurrencyIcon type="primary" />
-                    </div>
-                  </li>
-                )
-            )
-          )}
+          {countIngredients.map((ingredient, index) => {
+            return (
+              <li key={index} className={styles.item}>
+                <div className={styles.item_li_n_img}>
+                  <div className={styles.item_li}>
+                    <img
+                      className={styles.item_img}
+                      src={ingredient.image_mobile}
+                      alt={ingredient.name}
+                    />
+                  </div>
+                </div>
+                <span
+                  className={`text text_type_main-default ${styles.item_title}`}
+                >
+                  {ingredient.name}
+                </span>
+                <div className={styles.quantity_n_price}>
+                  <span
+                    className={`text text_type_digits-default ${styles.item_price}`}
+                  >
+                    {ingredient.count} x {ingredient.price}
+                  </span>
+                  <CurrencyIcon type="primary" />
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className={styles.price_n_date}>
         <span
           className={`${styles.date_order} text text_type_main-default text_color_inactive`}
         >
-          {testDate}
+          {stringOfDate}
         </span>
         <div className={styles.price_n_currency}>
           <span
             className={`${styles.price_order} text text_type_digits-default`}
           >
-            {testPrice}
+            {memoizedPrice}
           </span>
           <CurrencyIcon type="primary" />
         </div>
