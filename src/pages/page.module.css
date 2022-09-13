@@ -19,6 +19,7 @@
   overflow-y: scroll;
   flex-basis: 600px;
   padding-right: 8px;
+  margin-top: 20px;
 }
 
 .feed::-webkit-scrollbar {
@@ -71,7 +72,7 @@
 
 .profile_wrapper {
   display: flex;
-  margin: 120px auto 0;
+  margin: 60px auto 0;
   align-items: flex-start;
   gap: 60px;
   max-width: 1244px;

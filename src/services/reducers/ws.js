@@ -11,6 +11,8 @@ const initialState = {
   wsConnected: false,
   orders: [],
   error: undefined,
+  total: 0,
+  totalToday: 0
 };
 
 // Создадим редьюсер для WebSocket
@@ -50,13 +52,17 @@ export const wsReducer = (state = initialState, action) => {
       return {
         ...state,
         error: undefined,
-        orders: action.payload,
+        orders: action.payload.orders,
+        total: action.payload.total,
+        totalToday: action.payload.totalToday
       };
     // Чистим стейт
     case WS_CLEAR_ORDERS:
       return {
         ...state,
         orders: [],
+        tota: 0,
+        totalToday: 0,
       };
     default:
       return state;

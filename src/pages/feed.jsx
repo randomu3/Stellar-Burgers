@@ -20,8 +20,8 @@ export function Feed() {
   const location = useLocation();
 
   const orders = useSelector((state) => state.ws.orders);
-  const totalOrders = useSelector((state) => state.ws);
-  console.log("totalOrders", totalOrders);
+  const totalOrders = useSelector((state) => state.ws.total);
+  const totalToday = useSelector((state) => state.ws.totalToday)
 
   useEffect(() => {
     dispatch({ type: WS_CLEAR_ORDERS });
@@ -93,13 +93,13 @@ export function Feed() {
             <h2 className={`text text_type_main-medium`}>
               Выполнено за все время:
             </h2>
-            <span className={`text text_type_digits-large`}>28 752</span>
+            <span className={`text text_type_digits-large`}>{totalOrders}</span>
           </div>
           <div>
             <h2 className={`text text_type_main-medium`}>
               Выполнено за сегодня:
             </h2>
-            <span className={`text text_type_digits-large`}>138</span>
+            <span className={`text text_type_digits-large`}>{totalToday}</span>
           </div>
         </div>
       </div>
