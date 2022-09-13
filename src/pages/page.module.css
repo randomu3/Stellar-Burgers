@@ -256,6 +256,7 @@ a {
 .price_n_currency {
   display: flex;
   text-align: center;
+  gap: 9px;
 }
 
 .price_n_date {
