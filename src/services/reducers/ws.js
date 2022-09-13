@@ -61,7 +61,7 @@ export const wsReducer = (state = initialState, action) => {
       return {
         ...state,
         orders: [],
-        tota: 0,
+        total: 0,
         totalToday: 0,
       };
     default:

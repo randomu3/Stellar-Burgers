@@ -21,7 +21,7 @@ export function Feed() {
 
   const orders = useSelector((state) => state.ws.orders);
   const totalOrders = useSelector((state) => state.ws.total);
-  const totalToday = useSelector((state) => state.ws.totalToday)
+  const totalToday = useSelector((state) => state.ws.totalToday);
 
   useEffect(() => {
     dispatch({ type: WS_CLEAR_ORDERS });
@@ -208,6 +208,8 @@ function IngredientsLessSix({ data }) {
 }
 
 OrderItem.propTypes = {
+  IngredientsLessSix: PropTypes.object,
+  IngredientsMoreSix: PropTypes.object,
   order: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 };
