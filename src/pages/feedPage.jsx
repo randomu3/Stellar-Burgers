@@ -6,7 +6,8 @@ import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
-import { WS_CONNECTION_START } from "../services/actions/wsActionTypes";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../services/actions/wsActionTypes";
+import { wsUrl } from "../components/utils/constants";
 
 export function FeedPage() {
   const { id } = useParams();
@@ -24,8 +25,14 @@ export function FeedPage() {
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      payload: "wss://norma.nomoreparties.space/orders/all",
+      payload: `${wsUrl}/all`,
     });
+    return () => {
+      console.log("connection closed");
+      dispatch({
+        type: WS_CONNECTION_CLOSED,
+      });
+    };
   }, [dispatch]);
 
   const countIngredients = useMemo(() => {

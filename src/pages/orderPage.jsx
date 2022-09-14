@@ -6,8 +6,12 @@ import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
-import { WS_CONNECTION_START } from "../services/actions/wsActionTypes";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../services/actions/wsActionTypes";
 import { getCookie } from "../components/utils/cookie";
+import { wsUrl } from "../components/utils/constants";
 
 export function OrderPage() {
   const { id } = useParams();
@@ -25,10 +29,14 @@ export function OrderPage() {
   useEffect(() => {
     dispatch({
       type: WS_CONNECTION_START,
-      payload: `wss://norma.nomoreparties.space/orders?token=${
-        getCookie("accessToken").split(" ")[1]
-      }`,
+      payload: `${wsUrl}?token=${getCookie("accessToken").split(" ")[1]}`,
     });
+    return () => {
+      console.log("connection closed");
+      dispatch({
+        type: WS_CONNECTION_CLOSED,
+      });
+    };
   }, [dispatch]);
 
   const countIngredients = useMemo(() => {
@@ -94,8 +102,8 @@ export function OrderPage() {
           Состав:
         </span>
         <ul className={styles.items}>
-          {countIngredients?.map((item, index) => (
-            <li key={index} className={styles.item}>
+          {countIngredients?.map((item) => (
+            <li key={item._id} className={styles.item}>
               <div className={styles.item_li_n_img}>
                 <div className={styles.item_li}>
                   <img

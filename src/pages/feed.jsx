@@ -8,11 +8,13 @@ import { data } from "../components/utils/data";
 import { setInfoIngredient } from "../services/actions/currentIngredient";
 import {
   WS_CLEAR_ORDERS,
+  WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../services/actions/wsActionTypes";
 import PropTypes from "prop-types";
 
 import styles from "./page.module.css";
+import { wsUrl } from "../components/utils/constants";
 
 export function Feed() {
   const dispatch = useDispatch();
@@ -27,8 +29,14 @@ export function Feed() {
     dispatch({ type: WS_CLEAR_ORDERS });
     dispatch({
       type: WS_CONNECTION_START,
-      payload: "wss://norma.nomoreparties.space/orders/all",
+      payload: `${wsUrl}/all`,
     });
+    return () => {
+      console.log("connection closed");
+      dispatch({
+        type: WS_CONNECTION_CLOSED,
+      });
+    };
   }, [dispatch]);
 
   function openModal(data) {
@@ -43,7 +51,7 @@ export function Feed() {
           <ul className={`${styles.orders_list} ${styles.orders_list_indent}`}>
             {orders.map((order, index) => (
               <OrderItem
-                key={index}
+                key={order._id}
                 order={order}
                 onClick={() => {
                   openModal(order);

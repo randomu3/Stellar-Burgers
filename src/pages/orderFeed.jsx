@@ -11,10 +11,12 @@ import styles from "./page.module.css";
 import { setInfoIngredient } from "../services/actions/currentIngredient";
 import {
   WS_CLEAR_ORDERS,
+  WS_CONNECTION_CLOSED,
   WS_CONNECTION_START,
 } from "../services/actions/wsActionTypes";
 import { getCookie } from "../components/utils/cookie";
 import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
+import { wsUrl } from "../components/utils/constants";
 
 export function OrdersFeed() {
   const dispatch = useDispatch();
@@ -32,10 +34,14 @@ export function OrdersFeed() {
     dispatch({ type: WS_CLEAR_ORDERS });
     dispatch({
       type: WS_CONNECTION_START,
-      payload: `wss://norma.nomoreparties.space/orders?token=${
-        getCookie("accessToken").split(" ")[1]
-      }`,
+      payload: `${wsUrl}?token=${getCookie("accessToken").split(" ")[1]}`,
     });
+    return () => {
+      console.log("connection closed");
+      dispatch({
+        type: WS_CONNECTION_CLOSED,
+      });
+    };
   }, [dispatch]);
 
   function openModal(data) {
@@ -79,7 +85,7 @@ export function OrdersFeed() {
           {orders.reverse().map((order, index) => (
             <OrderItem
               order={order}
-              key={index}
+              key={order._id}
               onClick={() => {
                 openModal(order);
                 history.push({
