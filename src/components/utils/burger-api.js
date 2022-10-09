@@ -1,3 +1,5 @@
+import { getCookie } from "./cookie";
+
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
 export const checkReponse = (res) => {
@@ -15,6 +17,7 @@ export function sendOrders(idOrdersArray) {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
+      "authorization": getCookie("accessToken")
     },
     body: JSON.stringify({
       ingredients: idOrdersArray,

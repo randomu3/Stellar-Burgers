@@ -1,21 +1,49 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Modal } from "../components/Modal/Modal";
 import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../services/actions/wsActionTypes";
+import { getCookie } from "../components/utils/cookie";
+import { wsUrl } from "../components/utils/constants";
 
-export function Order({ closeModal }) {
+export function OrderPage() {
   const { id } = useParams();
   const { ingredients } = useSelector((state) => state.ingredients);
   const { orders } = useSelector((state) => state.ws);
-  const order = orders.filter((order) => order._id === id)[0];
+  const order = orders.find((order) => order._id === id);
+  const dispatch = useDispatch();
+  console.log({
+    id: id,
+    ingredients: ingredients,
+    order: order,
+    orders: orders,
+  });
+
+  useEffect(() => {
+    dispatch({
+      type: WS_CONNECTION_START,
+      payload: `${wsUrl}?token=${getCookie("accessToken").split(" ")[1]}`,
+    });
+    return () => {
+      console.log("connection closed");
+      dispatch({
+        type: WS_CONNECTION_CLOSED,
+      });
+    };
+  }, [dispatch]);
 
   const countIngredients = useMemo(() => {
-    const currentIngredients = order.ingredients.map((id) =>
+    if (!order) {
+      return [];
+    }
+    const currentIngredients = order?.ingredients.map((id) =>
       ingredients.find((ingredient) => ingredient._id === id)
     );
     const obj = {};
@@ -29,7 +57,7 @@ export function Order({ closeModal }) {
       }
     });
     return Object.values(obj);
-  }, [ingredients, order.ingredients]);
+  }, [ingredients, order]);
 
   const memoizedPrice = useMemo(() => {
     return countIngredients.reduce((previousValue, currentValue) => {
@@ -37,7 +65,10 @@ export function Order({ closeModal }) {
     }, 0);
   }, [countIngredients]);
 
-  
+  if (!order) {
+    return null;
+  }
+
   let stringOfDate = "";
 
   if (isToday(Date.parse(order.createdAt))) {
@@ -54,7 +85,7 @@ export function Order({ closeModal }) {
   stringOfDate += format(Date.parse(order.createdAt), "HH:mm zzz");
 
   return (
-    <Modal className={styles.wrapper} closeModal={closeModal}>
+    <div className={styles.wrapperPage}>
       <span className={`${styles.order_number} text text_type_digits-default`}>
         #{order.number}
       </span>
@@ -71,34 +102,32 @@ export function Order({ closeModal }) {
           Состав:
         </span>
         <ul className={styles.items}>
-          {countIngredients.map((ingredient, index) => {
-            return (
-              <li key={index} className={styles.item}>
-                <div className={styles.item_li_n_img}>
-                  <div className={styles.item_li}>
-                    <img
-                      className={styles.item_img}
-                      src={ingredient.image_mobile}
-                      alt={ingredient.name}
-                    />
-                  </div>
+          {countIngredients?.map((item) => (
+            <li key={item._id} className={styles.item}>
+              <div className={styles.item_li_n_img}>
+                <div className={styles.item_li}>
+                  <img
+                    className={styles.item_img}
+                    src={item.image_mobile}
+                    alt={item.name}
+                  />
                 </div>
+              </div>
+              <span
+                className={`text text_type_main-default ${styles.item_title}`}
+              >
+                {item.name}
+              </span>
+              <div className={styles.quantity_n_price}>
                 <span
-                  className={`text text_type_main-default ${styles.item_title}`}
+                  className={`text text_type_digits-default ${styles.item_price}`}
                 >
-                  {ingredient.name}
+                  {item.count} x {item.price}
                 </span>
-                <div className={styles.quantity_n_price}>
-                  <span
-                    className={`text text_type_digits-default ${styles.item_price}`}
-                  >
-                    {ingredient.count} x {ingredient.price}
-                  </span>
-                  <CurrencyIcon type="primary" />
-                </div>
-              </li>
-            );
-          })}
+                <CurrencyIcon type="primary" />
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles.price_n_date}>
@@ -116,6 +145,6 @@ export function Order({ closeModal }) {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </Modal>
+    </div>
   );
 }
