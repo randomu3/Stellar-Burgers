@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-const useInputState = (initialState) => {
+const useInputState = (initialState: string) => {
   const [state, setState] = useState(initialState);
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   };
 
   return [state, onChange, setState];
 };
 
-export default useInputState
+export default useInputState;

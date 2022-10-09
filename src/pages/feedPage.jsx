@@ -15,12 +15,6 @@ export function FeedPage() {
   const { orders } = useSelector((state) => state.ws);
   const order = orders.find((order) => order._id === id);
   const dispatch = useDispatch();
-  console.log({
-    id: id,
-    ingredients: ingredients,
-    order: order,
-    orders: orders,
-  });
 
   useEffect(() => {
     dispatch({
@@ -28,7 +22,6 @@ export function FeedPage() {
       payload: `${wsUrl}/all`,
     });
     return () => {
-      console.log("connection closed");
       dispatch({
         type: WS_CONNECTION_CLOSED,
       });

@@ -28,7 +28,6 @@ export function OrdersFeed() {
   let location = useLocation();
 
   const orders = useSelector((state) => state.ws.orders);
-  console.log("orders", orders);
 
   useEffect(() => {
     dispatch({ type: WS_CLEAR_ORDERS });
@@ -37,7 +36,6 @@ export function OrdersFeed() {
       payload: `${wsUrl}?token=${getCookie("accessToken").split(" ")[1]}`,
     });
     return () => {
-      console.log("connection closed");
       dispatch({
         type: WS_CONNECTION_CLOSED,
       });

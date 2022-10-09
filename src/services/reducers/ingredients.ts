@@ -2,7 +2,15 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_SUCCESS,
+  IGetIngredientsActions,
 } from "../actions/ingredients";
+import { TItem } from "../types/data";
+
+export type TIngredientsState = {
+  ingredients: Array<TItem> // check
+  ingredientsRequest: boolean,
+  ingredientsFailed: boolean,
+}
 
 // список всех полученных ингредиентов
 const initialState = {
@@ -12,7 +20,7 @@ const initialState = {
 };
 
 // reducer
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: IGetIngredientsActions) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

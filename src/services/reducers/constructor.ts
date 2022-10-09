@@ -4,17 +4,27 @@ import {
   DELETE_FILLING,
   MOVE_FILLING,
   REFRESH_INGREDIENTS,
+  TCounstructorActions,
 } from "../actions/constructor";
 import update from "immutability-helper";
+import { TItem } from "../types/data";
+
+type TListIngredients = {
+  bun: null | TItem;
+  fillings: Array<TItem>;
+};
 
 // список всех ингредиентов в текущем конструкторе бургера
-const initialState = {
+const initialState: TListIngredients = {
   bun: null,
   fillings: [],
 };
 
 // reducer
-export const ingredientsConstructorReducer = (state = initialState, action) => {
+export const ingredientsConstructorReducer = (
+  state = initialState,
+  action: TCounstructorActions
+) => {
   switch (action.type) {
     case ADD_BUN: {
       return {

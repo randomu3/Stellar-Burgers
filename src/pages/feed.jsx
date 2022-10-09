@@ -32,7 +32,6 @@ export function Feed() {
       payload: `${wsUrl}/all`,
     });
     return () => {
-      console.log("connection closed");
       dispatch({
         type: WS_CONNECTION_CLOSED,
       });

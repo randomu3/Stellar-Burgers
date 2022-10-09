@@ -19,12 +19,6 @@ export function OrderPage() {
   const { orders } = useSelector((state) => state.ws);
   const order = orders.find((order) => order._id === id);
   const dispatch = useDispatch();
-  console.log({
-    id: id,
-    ingredients: ingredients,
-    order: order,
-    orders: orders,
-  });
 
   useEffect(() => {
     dispatch({
@@ -32,7 +26,6 @@ export function OrderPage() {
       payload: `${wsUrl}?token=${getCookie("accessToken").split(" ")[1]}`,
     });
     return () => {
-      console.log("connection closed");
       dispatch({
         type: WS_CONNECTION_CLOSED,
       });

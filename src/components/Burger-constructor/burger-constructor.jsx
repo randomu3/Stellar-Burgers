@@ -125,16 +125,15 @@ const Filling = ({ ingredient, deleteFilling, index }) => {
 const ButtonOrder = () => {
   const [isShow, setShow] = useState(false);
   const orders = useSelector((state) => state.ingredientsConstructor);
-  const { isAuthorized } = useSelector((state) => state.auth)
+  const { isAuthorized } = useSelector((state) => state.auth);
   const isLoading = useSelector((state) => state.postOrder.dataRequest);
   const dispatch = useDispatch();
   const history = useHistory();
 
-
   function openModal() {
     if (!isAuthorized) {
-      history.replace("/login")
-      return
+      history.replace("/login");
+      return;
     }
 
     setShow(true);

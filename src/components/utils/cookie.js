@@ -35,7 +35,7 @@ export function getCookie(name) {
         "=([^;]*)"
     )
   );
-  return matches ? decodeURIComponent(matches[1]) : undefined;
+  return matches ? decodeURIComponent(matches[1]) : '';
 }
 
 export function deleteCookie(name) {

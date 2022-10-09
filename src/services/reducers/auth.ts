@@ -4,7 +4,8 @@ import {
   LOGOUT_USER,
   CHECK_TOKEN,
   LOADING_TRUE,
-  REFRESH_TOKEN
+  REFRESH_TOKEN,
+  TAuthActions,
 } from "../actions/auth";
 
 const initialState = {
@@ -14,13 +15,13 @@ const initialState = {
   isLoading: true,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
   switch (action.type) {
     case REFRESH_TOKEN:
       return {
         ...state,
         isAuthorized: true,
-        accessToken: action.accessToken
+        accessToken: action.accessToken,
       };
     case LOADING_TRUE:
       return {
