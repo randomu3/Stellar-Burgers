@@ -5,19 +5,30 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import ingredientsStyles from "./burger-ingredients.module.css";
-
-import PropTypes from "prop-types";
 import { filterIngredients } from "../utils/filter-ingredients";
-import { ingredientPropType } from "../utils/ingredients-shape";
-import { useDispatch, useSelector } from "react-redux";
 import { setInfoIngredient } from "../../services/actions/currentIngredient";
 import { useHistory, useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { TItem } from "../../services/types/data";
 
-const Tabs = ({ mainsRef, bunsRef, saucesRef, current, setCurrent }) => {
-  function handleButtonClick(ref) {
-    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+interface ITabs {
+  mainsRef: React.RefObject<HTMLDivElement>;
+  bunsRef: React.RefObject<HTMLDivElement>;
+  saucesRef: React.RefObject<HTMLDivElement>;
+  current: string;
+  setCurrent: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Tabs: React.FC<ITabs> = ({
+  mainsRef,
+  bunsRef,
+  saucesRef,
+  current,
+  setCurrent,
+}) => {
+  function handleButtonClick(ref: React.RefObject<HTMLDivElement>) {
+    ref.current?.scrollIntoView({ block: "start", behavior: "smooth" });
   }
 
   return (
@@ -56,10 +67,12 @@ const Tabs = ({ mainsRef, bunsRef, saucesRef, current, setCurrent }) => {
   );
 };
 
-const Ingredients = ({ ingredients }) => {
-  const dispatch = useDispatch();
+const Ingredients: React.FC<{ ingredients: Array<TItem> }> = ({
+  ingredients,
+}) => {
+  const dispatch = useAppDispatch();
 
-  function openModal(data) {
+  function openModal(data: TItem) {
     dispatch(setInfoIngredient(data));
   }
 
@@ -78,7 +91,10 @@ const Ingredients = ({ ingredients }) => {
   );
 };
 
-const IngredientItem = ({ ingredient, openModal }) => {
+const IngredientItem: React.FC<{
+  ingredient: TItem;
+  openModal: (data: TItem) => void;
+}> = ({ ingredient, openModal }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "ingredient",
     item: ingredient,
@@ -86,7 +102,7 @@ const IngredientItem = ({ ingredient, openModal }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  const { fillings, bun } = useSelector(
+  const { fillings, bun } = useAppSelector(
     (state) => state.ingredientsConstructor
   );
   const counter = useMemo(() => {
@@ -97,17 +113,17 @@ const IngredientItem = ({ ingredient, openModal }) => {
     });
     return t;
   }, [fillings, ingredient._id, bun]);
-  const history = useHistory()
+  const history = useHistory();
   let location = useLocation();
 
   return (
     <li
       onClick={() => {
-        openModal(ingredient)
+        openModal(ingredient);
         history.push({
           pathname: `/ingredient/${ingredient._id}`,
-          state: { background: location },  
-        })
+          state: { background: location },
+        });
       }}
       className={ingredientsStyles.li}
       ref={drag}
@@ -115,7 +131,7 @@ const IngredientItem = ({ ingredient, openModal }) => {
     >
       <div className={`pr-4 pl-4 pb-1`}>
         <img
-          id={ingredient.id}
+          // id={ingredient.id}
           src={ingredient.image}
           alt={ingredient.name}
         ></img>
@@ -138,16 +154,12 @@ const IngredientItem = ({ ingredient, openModal }) => {
   );
 };
 
-Ingredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-};
-
 export const BurgerIngredients = () => {
-  const { ingredients } = useSelector((state) => state.ingredients);
-  const mainsRef = useRef();
-  const bunsRef = useRef();
-  const saucesRef = useRef();
-  const ingredientsRef = useRef();
+  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const mainsRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLDivElement>(null);
+  const saucesRef = useRef<HTMLDivElement>(null);
+  const ingredientsRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState("one");
 
   const scrollHandler = () => {
@@ -156,11 +168,14 @@ export const BurgerIngredients = () => {
       return;
     }
 
-    const getHeight = (ref) => {
-      return Math.abs(
-        ingredientsRef.current.getBoundingClientRect().top -
-        ref.current.getBoundingClientRect().top
-      );
+    const getHeight = (ref: React.RefObject<HTMLDivElement>) => {
+      if (ingredientsRef.current && ref.current) {
+        return Math.abs(
+          ingredientsRef.current.getBoundingClientRect().top -
+            ref.current.getBoundingClientRect().top
+        );
+      }
+      return 0;
     };
 
     const mainsHeight = getHeight(mainsRef);
@@ -172,8 +187,8 @@ export const BurgerIngredients = () => {
       bunsHeight === minHeight
         ? "one"
         : saucesHeight === minHeight
-          ? "two"
-          : "three"
+        ? "two"
+        : "three"
     );
   };
 
@@ -183,7 +198,6 @@ export const BurgerIngredients = () => {
       <Tabs
         current={current}
         setCurrent={setCurrent}
-        ingredientsRef={ingredientsRef}
         bunsRef={bunsRef}
         mainsRef={mainsRef}
         saucesRef={saucesRef}

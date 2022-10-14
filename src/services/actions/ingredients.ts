@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import { AppDispatch } from "..";
 import { getIngredientsRequest } from "../../components/utils/burger-api";
 import { TItem } from "../types/data";
 
@@ -11,7 +12,7 @@ export interface IGetIngredientsRequestAction {
 }
 export interface IGetIngredientsSuccessAction {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly ingredients: TItem;
+  readonly ingredients: Array<TItem>;
 }
 export interface IGetIngredientsFailedAction {
   readonly type: typeof GET_INGREDIENTS_FAILED;
@@ -23,8 +24,8 @@ export type IGetIngredientsActions =
   | IGetIngredientsFailedAction;
 
 // thunk
-export function getIngredients() {
-  return function (dispatch: Dispatch) {
+export function getIngredients () {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST,
     });

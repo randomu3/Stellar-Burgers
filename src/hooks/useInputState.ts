@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
-const useInputState = (initialState: string) => {
+const useInputState = (initialState: string): [string, (e: React.ChangeEvent<HTMLInputElement>) => void,Dispatch<SetStateAction<string>> ] => {
   const [state, setState] = useState(initialState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

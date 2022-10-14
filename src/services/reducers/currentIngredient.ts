@@ -8,7 +8,7 @@ export type TInfoIngredient = {
   data: null | TItem;
 };
 
-const initialState = {
+const initialState: TInfoIngredient = {
   data: null,
 };
 
@@ -20,6 +20,7 @@ export const currentIngredientReducer = (
   switch (action.type) {
     case SET_INFO_INGREDIENT: {
       return {
+        ...state,
         data: action.data,
       };
     }

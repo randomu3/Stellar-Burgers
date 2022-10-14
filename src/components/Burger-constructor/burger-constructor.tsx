@@ -7,8 +7,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { OrderDetails } from "../Order-details/order-details.jsx";
-import { useDispatch, useSelector } from "react-redux";
+import { OrderDetails } from "../Order-details/order-details";
 import {
   addBun,
   addFilling,
@@ -17,15 +16,17 @@ import {
 } from "../../services/actions/constructor";
 import { postOrder } from "../../services/actions";
 import { useHistory } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { TItem } from "../../services/types/data";
 
 const ComponentsList = () => {
-  const orders = useSelector((state) => state.ingredientsConstructor);
+  const orders = useAppSelector((state) => state.ingredientsConstructor);
 
-  const dispatch = useDispatch();
-  // eslint-disable-next-line no-empty-pattern, no-unused-vars
+  const dispatch = useAppDispatch();
+  // eslint-disable-next-line no-empty-pattern, no-unused-vars, @typescript-eslint/no-unused-vars
   const [_, drop] = useDrop(() => ({
     accept: "ingredient",
-    drop: (item) => {
+    drop: (item: TItem) => {
       if (item.type === "bun") {
         return dispatch(addBun(item));
       }
@@ -37,7 +38,7 @@ const ComponentsList = () => {
   }));
 
   const deleteFilling = useCallback(
-    (id) => {
+    (id: number) => {
       dispatch(delFilling(id));
     },
     [dispatch]
@@ -77,12 +78,22 @@ const ComponentsList = () => {
   );
 };
 
-const Filling = ({ ingredient, deleteFilling, index }) => {
+interface IFIllingProps {
+  ingredient: TItem;
+  deleteFilling: (id: number) => void;
+  index: number;
+}
+
+const Filling: React.FC<IFIllingProps> = ({
+  ingredient,
+  deleteFilling,
+  index,
+}) => {
   const ref = useRef(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [, drop] = useDrop({
     accept: "filling",
-    hover(item) {
+    hover(item: { index: number }) {
       if (!ref.current) {
         return;
       }
@@ -124,10 +135,10 @@ const Filling = ({ ingredient, deleteFilling, index }) => {
 
 const ButtonOrder = () => {
   const [isShow, setShow] = useState(false);
-  const orders = useSelector((state) => state.ingredientsConstructor);
-  const { isAuthorized } = useSelector((state) => state.auth);
-  const isLoading = useSelector((state) => state.postOrder.dataRequest);
-  const dispatch = useDispatch();
+  const orders = useAppSelector((state) => state.ingredientsConstructor);
+  const { isAuthorized } = useAppSelector((state) => state.auth);
+  const isLoading = useAppSelector((state) => state.postOrder.dataRequest);
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   function openModal() {
@@ -138,9 +149,11 @@ const ButtonOrder = () => {
 
     setShow(true);
     let idOrdersArray = orders.fillings.map((ingredient) => ingredient._id);
-    idOrdersArray.push(orders.bun?._id, orders.bun?._id);
+    if (orders.bun?._id) {
+      idOrdersArray.push(orders.bun._id, orders.bun._id);
+    }
 
-    dispatch(postOrder(idOrdersArray));
+    dispatch(postOrder(idOrdersArray)); // ts
   }
 
   const closeModal = useCallback(() => {
@@ -151,7 +164,7 @@ const ButtonOrder = () => {
     () =>
       orders.fillings.reduce(
         (previousValue, currentValue) => previousValue + currentValue.price,
-        orders.bun?.price * 2
+        (orders.bun?.price || 0) * 2
       ),
     [orders] // То что влияет на изменение
   );

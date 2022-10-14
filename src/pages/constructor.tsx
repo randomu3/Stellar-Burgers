@@ -2,10 +2,10 @@ import React from "react";
 import { BurgerIngredients } from "../components/Burger-ingredients/burger-ingredients";
 import { BurgerConstructor } from "../components/Burger-constructor/burger-constructor";
 import appStyles from "./construcor.module.css";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks/useRedux";
 
 export function ConstructorPage () {
-  const { ingredientsRequest, ingredientsFailed } = useSelector(
+  const { ingredientsRequest, ingredientsFailed } = useAppSelector(
     (state) => state.ingredients
   );
 

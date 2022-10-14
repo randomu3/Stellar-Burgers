@@ -1,3 +1,5 @@
+import { Location } from "history";
+
 export type TItem = {
   _id: string;
   id: number;
@@ -23,3 +25,8 @@ export type TOrder = {
   updatedAt: string;
   number: number;
 };
+
+export interface ILocationState {
+  from: string;
+  background: Location;
+}

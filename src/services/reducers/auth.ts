@@ -6,12 +6,20 @@ import {
   LOADING_TRUE,
   REFRESH_TOKEN,
   TAuthActions,
+  TUser,
 } from "../actions/auth";
 
-const initialState = {
+export interface IAuthState {
+  accessToken: string;
+  isAuthorized: boolean;
+  user: null | TUser
+  isLoading: boolean;
+}
+
+const initialState: IAuthState = {
   accessToken: "",
   isAuthorized: false,
-  user: {},
+  user: null,
   isLoading: true,
 };
 
@@ -44,7 +52,7 @@ export const authReducer = (state = initialState, action: TAuthActions) => {
       return {
         ...state,
         isAuthorized: false,
-        user: {},
+        user: null,
       };
     case REGISTER_USER:
       return {

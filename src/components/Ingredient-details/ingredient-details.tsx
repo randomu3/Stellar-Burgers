@@ -1,22 +1,21 @@
 import React from "react";
-
 import IDStyles from "./ingredient-details.module.css";
-
-import PropTypes from "prop-types";
 import { Modal } from "../Modal/Modal";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/useRedux";
 
-export const IngredientDetails = ({ closeModal }) => {
-  const data = useSelector((state) => state.currentIngredient.data);
-  
+export const IngredientDetails: React.FC<{ closeModal: () => void }> = ({
+  closeModal,
+}) => {
+  const data = useAppSelector((state) => state.currentIngredient.data);
+
   return (
     <Modal className={IDStyles.modal} closeModal={closeModal}>
       <h3 className="text text_type_main-large">Детали ингредиента</h3>
       <div className={`${IDStyles.img_block}`}>
-        <img className={IDStyles.img} src={data.image} alt={data.name} />
+        <img className={IDStyles.img} src={data?.image} alt={data?.name} />
       </div>
       <p className={`mt-4 text text_type_main-medium ${IDStyles.description}`}>
-        {data.name}
+        {data?.name}
       </p>
       <div className={`mt-8 ${IDStyles.nutritional_value_block}`}>
         <div className={`${IDStyles.nutritional_value}`}>
@@ -24,7 +23,7 @@ export const IngredientDetails = ({ closeModal }) => {
             Калории,ккал
           </p>
           <p className={`text text_type_digits-default  ${IDStyles.quantity}`}>
-            {data.calories}
+            {data?.calories}
           </p>
         </div>
         <div className={`${IDStyles.nutritional_value}`}>
@@ -32,7 +31,7 @@ export const IngredientDetails = ({ closeModal }) => {
             Белки, г
           </p>
           <p className={`text text_type_digits-default  ${IDStyles.quantity}`}>
-            {data.proteins}
+            {data?.proteins}
           </p>
         </div>
         <div className={`${IDStyles.nutritional_value}`}>
@@ -40,7 +39,7 @@ export const IngredientDetails = ({ closeModal }) => {
             Жиры, г
           </p>
           <p className={`text text_type_digits-default  ${IDStyles.quantity}`}>
-            {data.fat}
+            {data?.fat}
           </p>
         </div>
         <div className={`${IDStyles.nutritional_value}`}>
@@ -48,14 +47,10 @@ export const IngredientDetails = ({ closeModal }) => {
             Углеводы, г
           </p>
           <p className={`text text_type_digits-default  ${IDStyles.quantity}`}>
-            {data.carbohydrates}
+            {data?.carbohydrates}
           </p>
         </div>
       </div>
     </Modal>
   );
-};
-
-IngredientDetails.propTypes = {
-  closeModal: PropTypes.func.isRequired,
 };

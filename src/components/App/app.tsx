@@ -17,21 +17,22 @@ import {
 } from "../../pages";
 import { AppHeader } from "../Header/header";
 import { ProtectedRoute } from "../Protected-route/protected-route";
-import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../services/actions/auth";
 import { IngredientDetails } from "../Ingredient-details/ingredient-details";
 import { getIngredients } from "../../services/actions/ingredients";
+import { useAppDispatch, useAppSelector } from "../../hooks/useRedux";
+import { ILocationState } from "../../services/types/data";
 
 export const App = () => {
-  const { isLoading } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  const { isLoading } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   let background;
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(getIngredients());
-    dispatch(getUser());
+    dispatch(getIngredients()); // ts
+    dispatch(getUser()); // ts
   }, [dispatch]);
 
   if (isLoading) {

@@ -1,45 +1,46 @@
 import {
     Button,
-    EmailInput,
+    Input,
+    PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useLayoutEffect } from "react";
-import { useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { BASE_URL, checkReponse } from "../components/utils/burger-api";
 import { useForm } from "../hooks/useForm";
+import { ILocationState } from "../services/types/data";
 
 import styles from "./page.module.css";
 
-export function ForgotPassFirstPage() {
-    const { isAuthorized, isLoading } = useSelector(state => state.auth)
-    const history = useHistory();
-    const location = useLocation();
-
+export function ForgotPassSecondPage() {
     const { values, handleChange } = useForm({
-        email: ""
+        password: "",
+        token: ""
     })
-
+    const inputRef = React.useRef(null)
+    const history = useHistory();
+    const location = useLocation<ILocationState>();
     useLayoutEffect(() => {
-        if (isAuthorized && !isLoading) {
-            history.replace(location?.state?.from || '/');
+        if (location?.state?.from === "/forgot-password") {
+            return undefined
+        } else {
+            history.replace("/")
         }
-    }, [history, isAuthorized, isLoading, location?.state?.from])
+    }, [history, location?.state?.from])
 
-    const onSubmitForm = (e) => {
+    const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        fetch(`${BASE_URL}/password-reset`, {
-            method: 'POST', // или 'PUT'
+        fetch(`${BASE_URL}/password-reset/reset/`, {
+            method: "POST",
             body: JSON.stringify({
-                email: values.email
+                password: values.password,
+                token: values.token
             }),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": 'application/json'
             }
         })
             .then(checkReponse)
-            .then(data => {
-                if (data.success) history.replace('/reset-password', { from: "/forgot-password" })
-            })
+            .then(data => { if (data.success) history.replace('/') })
             .catch(error => console.log("error", error))
     }
 
@@ -50,7 +51,22 @@ export function ForgotPassFirstPage() {
                     Восстановление пароля
                 </label>
                 <div className={styles.inputs}>
-                    <EmailInput onChange={handleChange} value={values.email} name={'email'} />
+                    <PasswordInput
+                        onChange={handleChange}
+                        value={values.password}
+                        name={"password"}
+                    />
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        onChange={handleChange}
+                        value={values.token}
+                        name={'name'}
+                        error={false}
+                        ref={inputRef}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
                 </div>
                 <Button type="primary" size="medium">
                     Восстановить
@@ -63,5 +79,5 @@ export function ForgotPassFirstPage() {
                 </div>
             </form>
         </div>
-    )
+    );
 }

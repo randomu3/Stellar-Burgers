@@ -2,14 +2,13 @@
 import { ThunkAction } from "redux-thunk";
 import { Action, ActionCreator } from "redux";
 
-import { store } from "../"; // change
+import { RootState } from "../"; // change
 import { TAuthActions } from "../actions/auth";
 import { TCounstructorActions } from "../actions/constructor";
 import { ISetInfoIngredientAction } from "../actions/currentIngredient";
 import { TPostOrderActions } from "../actions";
 import { IGetIngredientsActions } from "../actions/ingredients";
 
-export type RootState = ReturnType<typeof store.getState>;
 
 // Типизация всех экшенов приложения
 type TApplicationActions =

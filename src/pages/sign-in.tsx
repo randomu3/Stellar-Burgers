@@ -4,23 +4,24 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { login } from "../services/actions/auth";
+import { ILocationState } from "../services/types/data";
 
 import styles from "./page.module.css";
 
 export function SignInPage() {
-  const { isAuthorized } = useSelector(state => state.auth)
+  const { isAuthorized } = useAppSelector(state => state.auth)
   const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
-  const location = useLocation();
+  const location = useLocation<ILocationState>();
 
-  const dispatch = useDispatch();
-  const onSubmitForm = (e) => {
+  const dispatch = useAppDispatch();
+  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(values));
   }

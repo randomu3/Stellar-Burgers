@@ -13,7 +13,8 @@ export const socketMiddleware = (wsActions: typeof TWSA): Middleware => {
 
       if (type === wsActions.CONNECTION_START) {
         // объект класса WebSocket
-        socket = new WebSocket(action.payload as string);
+        // @ts-ignore
+        socket = new WebSocket(action.payload);
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
@@ -38,6 +39,7 @@ export const socketMiddleware = (wsActions: typeof TWSA): Middleware => {
 
         if (type === wsActions.SEND_ORDERS) {
           // функция для отправки сообщения на сервер
+          // @ts-ignore
           socket.send(JSON.stringify(action.payload));
         }
       }

@@ -7,23 +7,27 @@ import {
 import { TItem } from "../types/data";
 
 export type TIngredientsState = {
-  ingredients: Array<TItem> // check
-  ingredientsRequest: boolean,
-  ingredientsFailed: boolean,
-}
+  ingredients: Array<TItem>; // check
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+};
 
 // список всех полученных ингредиентов
-const initialState = {
+const initialState: TIngredientsState = {
   ingredients: [],
   ingredientsRequest: true,
   ingredientsFailed: false,
 };
 
 // reducer
-export const ingredientsReducer = (state = initialState, action: IGetIngredientsActions) => {
+export const ingredientsReducer = (
+  state = initialState,
+  action: IGetIngredientsActions
+) => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {
+        ...state,
         ingredientsRequest: true,
       };
     }
@@ -36,7 +40,11 @@ export const ingredientsReducer = (state = initialState, action: IGetIngredients
       };
     }
     case GET_INGREDIENTS_FAILED: {
-      return { ...state, ingredientsFailed: true, ingredientsRequest: false };
+      return { 
+        ...state,
+         ingredientsFailed: true, 
+         ingredientsRequest: false
+         };
     }
     default:
       return state;

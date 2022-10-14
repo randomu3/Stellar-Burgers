@@ -1,14 +1,10 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useHistory, useLocation } from "react-router-dom";
 import { logout } from "../services/actions/auth";
 import { data } from "../components/utils/data";
 import { ru } from "date-fns/locale";
-import PropTypes from "prop-types";
-
 import styles from "./page.module.css";
-import { setInfoIngredient } from "../services/actions/currentIngredient";
 import {
   WS_CLEAR_ORDERS,
   WS_CONNECTION_CLOSED,
@@ -17,17 +13,21 @@ import {
 import { getCookie } from "../components/utils/cookie";
 import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import { wsUrl } from "../components/utils/constants";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { TOrder } from "../services/types/data";
 
 export function OrdersFeed() {
-  const dispatch = useDispatch();
-  const onClickLogout = (e) => {
+  const dispatch = useAppDispatch();
+  const onClickLogout = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    dispatch(logout);
+    dispatch(logout());
   };
   const history = useHistory();
   let location = useLocation();
 
-  const orders = useSelector((state) => state.ws.orders);
+  const orders = useAppSelector((state) => state.ws.orders);
 
   useEffect(() => {
     dispatch({ type: WS_CLEAR_ORDERS });
@@ -41,10 +41,6 @@ export function OrdersFeed() {
       });
     };
   }, [dispatch]);
-
-  function openModal(data) {
-    dispatch(setInfoIngredient(data)); // ?? change dispatch
-  }
 
   return (
     <div className={styles.profile_wrapper}>
@@ -85,7 +81,6 @@ export function OrdersFeed() {
               order={order}
               key={order._id}
               onClick={() => {
-                openModal(order);
                 history.push({
                   pathname: `/profile/orders/${order._id}`,
                   state: { background: location },
@@ -99,8 +94,11 @@ export function OrdersFeed() {
   );
 }
 
-function OrderItem({ order, onClick }) {
-  const { ingredients } = useSelector((state) => state.ingredients);
+const OrderItem: React.FC<{
+  order: TOrder;
+  onClick: () => void;
+}> = ({ order, onClick }) => {
+  const { ingredients } = useAppSelector((state) => state.ingredients);
   let stringOfDate = "";
 
   if (isToday(Date.parse(order.createdAt))) {
@@ -119,7 +117,7 @@ function OrderItem({ order, onClick }) {
   const sumPrice = React.useMemo(() => {
     return order.ingredients.reduce((previousValue, currentValue) => {
       const ingredient = ingredients.find((e) => e._id === currentValue);
-      let sumPrice = previousValue + ingredient.price;
+      let sumPrice = previousValue + (ingredient?.price || 0);
       return sumPrice;
     }, 0);
   }, [ingredients, order.ingredients]);
@@ -148,10 +146,10 @@ function OrderItem({ order, onClick }) {
       </div>
     </li>
   );
-}
+};
 
-function IngredientsMoreSix({ data }) {
-  const { ingredients } = useSelector((state) => state.ingredients);
+const IngredientsMoreSix: React.FC<{ data: Array<string> }> = ({ data }) => {
+  const { ingredients } = useAppSelector((state) => state.ingredients);
   return (
     <>
       {data.slice(0, 6).map((item, index) => (
@@ -160,14 +158,14 @@ function IngredientsMoreSix({ data }) {
             <img
               style={{ opacity: 0.6 }}
               className={styles.item_screen}
-              src={ingredients.find((e) => e._id === item).image_mobile}
-              alt={ingredients.find((e) => e._id === item).name}
+              src={ingredients.find((e) => e._id === item)?.image_mobile}
+              alt={ingredients.find((e) => e._id === item)?.name}
             />
           ) : (
             <img
               className={styles.item_screen}
-              src={ingredients.find((e) => e._id === item).image_mobile}
-              alt={ingredients.find((e) => e._id === item).name}
+              src={ingredients.find((e) => e._id === item)?.image_mobile}
+              alt={ingredients.find((e) => e._id === item)?.name}
             />
           )}
           {index + 1 === 6 ? (
@@ -179,10 +177,10 @@ function IngredientsMoreSix({ data }) {
       ))}
     </>
   );
-}
+};
 
-function IngredientsLessSix({ data }) {
-  const { ingredients } = useSelector((state) => state.ingredients);
+const IngredientsLessSix: React.FC<{ data: Array<string> }> = ({ data }) => {
+  const { ingredients } = useAppSelector((state) => state.ingredients);
   return (
     <>
       {data.map((item, index) => (
@@ -190,18 +188,11 @@ function IngredientsLessSix({ data }) {
           <img
             style={{ opacity: 0.6 }}
             className={styles.item_screen}
-            src={ingredients.find((e) => e._id === item).image_mobile}
-            alt={ingredients.find((e) => e._id === item).name}
+            src={ingredients.find((e) => e._id === item)?.image_mobile}
+            alt={ingredients.find((e) => e._id === item)?.name}
           />
         </li>
       ))}
     </>
   );
-}
-
-OrderItem.propTypes = {
-  IngredientsLessSix: PropTypes.object,
-  IngredientsMoreSix: PropTypes.object,
-  order: PropTypes.object?.isRequired,
-  onClick: PropTypes.func.isRequired,
 };

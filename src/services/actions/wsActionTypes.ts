@@ -38,12 +38,10 @@ export interface IWSConnectionSuccessAction {
 
 export interface IWSConnectionClosedAction {
   readonly type: typeof WS_CONNECTION_CLOSED;
-  readonly payload: string;
 }
 
 export interface IWSClearOrdersAction {
   readonly type: typeof WS_CLEAR_ORDERS;
-  readonly payload: string;
 }
 
 export type TWSActions =

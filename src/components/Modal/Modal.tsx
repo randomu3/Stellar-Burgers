@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode } from "react";
 import ReactDOM from "react-dom";
-
 import modalStyles from "./Modal.module.css";
-
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import PropTypes from "prop-types";
-
 import { ModalOverlay } from "../Modal-overlay/modal-overlay";
 
-export const Modal = ({ children, className, closeModal }) => {
+export const Modal: React.FC<{
+  children: ReactNode;
+  className: string;
+  closeModal: () => void;
+}> = ({ children, className, closeModal }) => {
   useEffect(() => {
-    const handleKeydown = (e) => {
+    const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeModal();
       }
@@ -21,13 +20,15 @@ export const Modal = ({ children, className, closeModal }) => {
     return () => document.removeEventListener("keydown", handleKeydown);
   }, [closeModal]);
 
-  function stopPropogationClick(e) {
+  function stopPropogationClick(
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) {
     e.stopPropagation();
   }
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay className={modalStyles.wrapper} closeModal={closeModal}>
+      <ModalOverlay closeModal={closeModal}>
         <div
           className={`${modalStyles.modal} ${className}`}
           onClick={stopPropogationClick}
@@ -39,12 +40,6 @@ export const Modal = ({ children, className, closeModal }) => {
         </div>
       </ModalOverlay>
     </>,
-    document.getElementById("modal-root")
+    document.getElementById("modal-root")!
   );
-};
-
-Modal.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  closeModal: PropTypes.func.isRequired,
 };

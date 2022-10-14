@@ -5,7 +5,7 @@ import {
   TPostOrderActions,
 } from "../actions/index";
 
-export type TOrderState = {
+type TOrderState = {
   data: null | number;
   dataRequest: boolean;
   dataFailed: boolean;
@@ -25,6 +25,7 @@ export const createdOrder = (
   switch (action.type) {
     case POST_ORDER_REQUEST: {
       return {
+        ...state,
         dataRequest: true,
       };
     }

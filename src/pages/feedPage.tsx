@@ -1,20 +1,24 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { formatDistanceToNow, isToday, isYesterday, format } from "date-fns";
 import { ru } from "date-fns/locale";
 
 import styles from "./page.module.css";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from "../services/actions/wsActionTypes";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_START,
+} from "../services/actions/wsActionTypes";
 import { wsUrl } from "../components/utils/constants";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
+import { TItem } from "../services/types/data";
 
 export function FeedPage() {
-  const { id } = useParams();
-  const { ingredients } = useSelector((state) => state.ingredients);
-  const { orders } = useSelector((state) => state.ws);
+  const { id } = useParams<{ id: string }>();
+  const { ingredients } = useAppSelector((state) => state.ingredients);
+  const { orders } = useAppSelector((state) => state.ws);
   const order = orders.find((order) => order._id === id);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch({
@@ -35,22 +39,30 @@ export function FeedPage() {
     const currentIngredients = order?.ingredients.map((id) =>
       ingredients.find((ingredient) => ingredient._id === id)
     );
-    const obj = {};
+    const obj = {} as {
+      [key: string]: TItem & { count?: number };
+    };
     currentIngredients.forEach((el) => {
+      if (!el) return null;
       const _id = el._id;
       if (_id in obj) {
-        obj[_id].count++;
+        let count = obj[_id].count;
+        if (count) count++;
+        obj[_id].count = count;
       } else {
         obj[_id] = el;
         obj[_id].count = 1;
       }
     });
+
+    console.log(obj);
+
     return Object.values(obj);
   }, [ingredients, order]);
 
   const memoizedPrice = useMemo(() => {
     return countIngredients.reduce((previousValue, currentValue) => {
-      return previousValue + currentValue.price * currentValue.count;
+      return previousValue + currentValue.price * (currentValue.count || 1);
     }, 0);
   }, [countIngredients]);
 

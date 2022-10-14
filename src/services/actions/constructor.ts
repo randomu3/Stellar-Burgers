@@ -36,7 +36,7 @@ export type TCounstructorActions =
   | IConstructorMoveFillingAction
   | IConstructorRefreshIngredientsAction;
 
-export const addFilling = (payload: TItem) => ({
+export const addFilling = (payload: TItem): TCounstructorActions => ({
   type: ADD_FILLING,
   payload,
 });

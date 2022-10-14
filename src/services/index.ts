@@ -17,3 +17,5 @@ const middleware = [thunk, wsMiddleware];
 const enhancer = composeEnhancers(applyMiddleware(...middleware));
 export const store = createStore(rootReducer, enhancer);
 export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

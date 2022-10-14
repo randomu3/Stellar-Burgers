@@ -5,9 +5,9 @@ import {
     PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useLayoutEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
+import { useAppDispatch, useAppSelector } from "../hooks/useRedux";
 import { register } from "../services/actions/auth";
 
 import styles from "./page.module.css";
@@ -19,9 +19,9 @@ export function RegistrationPage() {
         password: "",
     });
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const history = useHistory();
-    const { isAuthorized, isLoading } = useSelector(state => state.auth)
+    const { isAuthorized, isLoading } = useAppSelector(state => state.auth)
 
     useLayoutEffect(() => {
         if (isAuthorized && !isLoading) {
@@ -29,7 +29,7 @@ export function RegistrationPage() {
         }
     }, [history, isAuthorized, isLoading])
     
-    const onSubmitForm = (e) => {
+    const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(register(values))
     }

@@ -1,18 +1,20 @@
 import React from "react";
-
 import ODStyles from "./order-details.module.css";
-
-import PropTypes from "prop-types"; // ES6
 import { Modal } from "../Modal/Modal";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/useRedux";
 
-export const OrderDetails = ({ closeModal, isLoading }) => {
-  const codeOrder = useSelector((state) => state.postOrder.data);
-  const codeOrderFailed = useSelector((state) => state.postOrder.dataFailed);
+export const OrderDetails: React.FC<{
+  closeModal: () => void;
+  isLoading: boolean;
+}> = ({ closeModal, isLoading }) => {
+  const codeOrder = useAppSelector((state) => state.postOrder.data);
+  const codeOrderFailed = useAppSelector((state) => state.postOrder.dataFailed);
   return (
     <Modal className={`pt-30 pb-30 ${ODStyles.modal}`} closeModal={closeModal}>
       {codeOrderFailed && (
-        <p className={`text text_type_main-default ${ODStyles.text}`}>Произошла непредвиденная ошибка.</p>
+        <p className={`text text_type_main-default ${ODStyles.text}`}>
+          Произошла непредвиденная ошибка.
+        </p>
       )}
       {isLoading && !codeOrderFailed && (
         <p className={`text text_type_main-default ${ODStyles.text}`}>
@@ -38,9 +40,4 @@ export const OrderDetails = ({ closeModal, isLoading }) => {
       )}
     </Modal>
   );
-};
-
-OrderDetails.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
 };

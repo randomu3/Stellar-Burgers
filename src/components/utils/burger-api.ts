@@ -2,7 +2,7 @@ import { getCookie } from "./cookie";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
-export const checkReponse = (res) => {
+export const checkReponse = (res: Response) => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
@@ -12,7 +12,7 @@ export function getIngredientsRequest() {
     .then(({ data }) => data)
 }
 
-export function sendOrders(idOrdersArray) {
+export function sendOrders(idOrdersArray: Array<string>) {
   return fetch(`${BASE_URL}/orders`, {
     method: "POST",
     headers: {
