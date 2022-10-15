@@ -1,14 +1,12 @@
 // types/index.ts
-import { ThunkAction } from "redux-thunk";
-import { Action, ActionCreator } from "redux";
-
-import { RootState } from "../"; // change
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { AppDispatch, RootState } from "../"; // change
 import { TAuthActions } from "../actions/auth";
 import { TCounstructorActions } from "../actions/constructor";
 import { ISetInfoIngredientAction } from "../actions/currentIngredient";
 import { TPostOrderActions } from "../actions";
 import { IGetIngredientsActions } from "../actions/ingredients";
-
 
 // Типизация всех экшенов приложения
 type TApplicationActions =
@@ -19,6 +17,7 @@ type TApplicationActions =
   | IGetIngredientsActions;
 
 // Типизация thunk в нашем приложении
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
->;
+export type AppThunk<TReturn = void> = (data?:any) => (dispatch: TypedDispatch) => TReturn;
+
+export type TypedDispatch = ThunkDispatch<RootState, any, AnyAction> &
+  AppDispatch;
