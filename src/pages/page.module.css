@@ -240,14 +240,13 @@ a {
   transform: translate(-50%, -50%);
   width: 620px;
   height: 640px;
-
   display: flex;
   flex-direction: column;
   gap: 40px;
-
   background-color: #131316;
   border-radius: 40px;
   padding: 40px;
+  justify-content: center;
 }
 
 .price {
@@ -450,7 +449,7 @@ a {
 }
 
 .status_success {
-  color: #00CCCC;
+  color: #00cccc;
   margin-top: 12px;
   display: block;
 }
